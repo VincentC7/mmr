@@ -1,0 +1,7 @@
+name: MMR
+version: '${project.version}'
+main: fr.lordhydra.mmr.MMR
+api-version: 1.19
+prefix: MMR
+authors: [ LordHydra ]
+description: DummyDescription

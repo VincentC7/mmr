@@ -1,0 +1,4 @@
+commands:
+  default:
+    unknownCommand: "Commande inconnue"
+    cantBeExecuteByTerminal: "Cette commande doit être faite par un joueur"
