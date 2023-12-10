@@ -17,9 +17,8 @@ public class ScoreService {
         double killerNextMmr = killerMmr + killedMmr * onKillRate;
         double killedNextMmr = killedMmr + killerMmr * onDeathRate;
 
-        //Todo Sauvegarder le nouveau MMR en base
-        //saveMMR(killer, killerNextMmr)
-        //saveMMR(killed, killedNextMmr)
+        savePlayerMmr(killed, killerNextMmr);
+        savePlayerMmr(killer, killedNextMmr);
 
         //Debug
         killer.sendMessage("ton nouveau MMR :" + killerNextMmr);
@@ -33,5 +32,14 @@ public class ScoreService {
             return Config.DEFAULT_MMR;
         }
         return playerMmrEntity.mmr();
+    }
+
+    private void savePlayerMmr(Player player, double newMmr) {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayer(player);
+        if (playerMmrEntity == null) {
+            playerMmrRepository.insert(player);
+        }
+        playerMmrRepository.updatePlayerMmr(player, newMmr);
     }
 }
