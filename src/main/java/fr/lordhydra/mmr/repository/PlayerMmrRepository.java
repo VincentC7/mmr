@@ -14,9 +14,10 @@ public class PlayerMmrRepository {
         String sql = """
                 CREATE TABLE IF NOT EXISTS PlayerMmr(
                     id INT(10) not null auto_increment,
-                    playerUUID varchar(36),
-                    created DATETIME,
-                    updated DATETIME,
+                    playerUUID varchar(36) NOT NULL,
+                    created DATETIME NOT NULL,
+                    updated DATETIME NOT NULL,
+                    mmr Float(8,2) NOT NULL,
                     PRIMARY KEY(id)
                 );
                 """;
@@ -29,5 +30,4 @@ public class PlayerMmrRepository {
         }
         return false;
     }
-
 }
