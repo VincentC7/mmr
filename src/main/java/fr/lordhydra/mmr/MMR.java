@@ -4,6 +4,7 @@ import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.listeners.PlayerDeathListener;
 import fr.lordhydra.mmr.services.FileService;
+import fr.lordhydra.mmr.services.StorageService;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +26,9 @@ public final class MMR extends JavaPlugin {
         FileService.getInstance().launchFiles();
         Lang.load();
         Config.load();
+
+        //Services
+        StorageService.getInstance().init();
 
         //Listeners
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);

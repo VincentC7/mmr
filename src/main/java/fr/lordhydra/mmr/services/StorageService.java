@@ -1,6 +1,7 @@
 package fr.lordhydra.mmr.services;
 
 import fr.lordhydra.mmr.db.DbConnection;
+import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 
 import java.sql.Connection;
 
@@ -21,6 +22,7 @@ public class StorageService {
 
     public void init() {
         dbConnection.connect();
+        PlayerMmrEntity.createTable();
     }
 
     public void stop() {
