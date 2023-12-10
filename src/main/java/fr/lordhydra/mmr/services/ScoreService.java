@@ -1,16 +1,15 @@
 package fr.lordhydra.mmr.services;
 
 import fr.lordhydra.mmr.config.Config;
+import fr.lordhydra.mmr.entities.PlayerMmrEntity;
+import fr.lordhydra.mmr.repository.PlayerMmrRepository;
 import org.bukkit.entity.Player;
 
 public class ScoreService {
 
     public void applyMmrToPlayers(Player killer, Player killed) {
-        //TODO Récupérer le MMR des joueurs
-        //getMMRkiller
-        //getMMRkilled
-        int killerMmr = 1000; //P1
-        int killedMmr = 1000; //P2
+        double killerMmr = getPlayerMmr(killer); //P1
+        double killedMmr = getPlayerMmr(killed); //P2
 
         //Calcul du nouveau MMR
         Double onDeathRate = Config.ON_DEATH_RATE; //A
@@ -27,4 +26,12 @@ public class ScoreService {
         killed.sendMessage("ton nouveau MMR :" + killedNextMmr);
     }
 
+    private double getPlayerMmr(Player player) {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayer(player);
+        if (playerMmrEntity == null) {
+            return Config.DEFAULT_MMR;
+        }
+        return playerMmrEntity.mmr();
+    }
 }
