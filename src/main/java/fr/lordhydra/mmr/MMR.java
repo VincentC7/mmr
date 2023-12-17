@@ -9,8 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Objects;
-
 public final class MMR extends JavaPlugin {
 
     @Getter

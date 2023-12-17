@@ -12,14 +12,14 @@ import java.io.IOException;
 public class ConfigFile {
 
 	private File file;
-	private String fileName;
+	private final String fileName;
 	protected FileConfiguration config;
 
 	private final JavaPlugin main;
 
-	public ConfigFile(String config) {
+	public ConfigFile(String fileName) {
 		main = MMR.getInstance();
-		fileName = config;
+		this.fileName = fileName + ".yml";
 	}
 
 	public void reload() {
@@ -57,7 +57,7 @@ public class ConfigFile {
 	}
 
 	public void init() {
-	    file = new File(main.getDataFolder(), fileName);
+		file = new File(main.getDataFolder(), fileName);
 	    if (!file.exists()) {
 			Logger.getInstance().info("Création de "+ fileName);
 	        file.getParentFile().mkdirs();
