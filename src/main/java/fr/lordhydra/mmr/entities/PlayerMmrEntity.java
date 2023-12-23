@@ -23,7 +23,7 @@ public class PlayerMmrEntity {
     private UUID playerUUID;
 
     @Getter
-    private String created, updated;
+    private String playerName, created, updated;
 
     @Getter
     private Double mmr;

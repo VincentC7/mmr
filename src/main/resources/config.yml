@@ -1,2 +1,3 @@
 onKillRate: 0.01 #Taux qu'on applique au joueur qui fait le kill
 onDeathRate: 0.01 #Taux qu'on applique au joueur qui a été tué
+defaultMmr: 1000 #MMR de base
