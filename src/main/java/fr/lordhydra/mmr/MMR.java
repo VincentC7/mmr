@@ -1,5 +1,6 @@
 package fr.lordhydra.mmr;
 
+import fr.lordhydra.mmr.commands.MMRCommand;
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.listeners.PlayerDeathListener;
@@ -8,6 +9,8 @@ import fr.lordhydra.mmr.services.StorageService;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class MMR extends JavaPlugin {
 
@@ -24,6 +27,9 @@ public final class MMR extends JavaPlugin {
         FileService.getInstance().launchFiles();
         Lang.load();
         Config.load();
+
+        //Commands
+        Objects.requireNonNull(getCommand("mmr")).setExecutor(new MMRCommand());
 
         //Services
         StorageService.getInstance().init();
