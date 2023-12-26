@@ -36,7 +36,7 @@ public class ScoreService {
         killed.sendMessage("ton nouveau MMR :" + killedNextMmr);
     }
 
-    private double getPlayerMmr(Player player) {
+    public double getPlayerMmr(Player player) {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayer(player);
         if (playerMmrEntity == null) {
