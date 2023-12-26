@@ -2,6 +2,7 @@ package fr.lordhydra.mmr.services;
 
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
+import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
 import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
@@ -41,6 +42,15 @@ public class ScoreService {
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayer(player);
         if (playerMmrEntity == null) {
             return Config.DEFAULT_MMR;
+        }
+        return playerMmrEntity.mmr();
+    }
+
+    public double getPlayerMmr(String playerName) throws PlayerMMRNotFoundException {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayerName(playerName);
+        if (playerMmrEntity == null) {
+            throw new PlayerMMRNotFoundException();
         }
         return playerMmrEntity.mmr();
     }

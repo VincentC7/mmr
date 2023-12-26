@@ -36,15 +36,28 @@ public class PlayerMmrRepository {
     }
 
     public PlayerMmrEntity findByPlayer(Player player) {
-        Connection connection = StorageService.getInstance().getConnection();
         String sql = """
                 SELECT *
                 FROM PlayerMmr
                 WHERE playerUUID = ?
                 """;
+        return findByField(sql, String.valueOf(player.getUniqueId()));
+    }
+
+    public PlayerMmrEntity findByPlayerName(String playerName) {
+        String sql = """
+                SELECT *
+                FROM PlayerMmr
+                WHERE playerName = ?
+                """;
+        return findByField(sql, playerName);
+    }
+
+    private PlayerMmrEntity findByField(String sql, String field) {
+        Connection connection = StorageService.getInstance().getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, player.getUniqueId().toString());
+            stmt.setString(1, field);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return PlayerMmrEntity.builder()
