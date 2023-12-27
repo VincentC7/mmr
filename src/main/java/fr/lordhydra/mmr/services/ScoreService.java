@@ -14,8 +14,8 @@ import java.math.RoundingMode;
 public class ScoreService {
 
     public void applyMmrToPlayers(Player killer, Player killed) {
-        BigDecimal killerMmr = BigDecimal.valueOf(getPlayerMmr(killer)); //P1
-        BigDecimal killedMmr = BigDecimal.valueOf(getPlayerMmr(killed)); //P2
+        BigDecimal killerMmr = getPlayerMmr(killer); //P1
+        BigDecimal killedMmr = getPlayerMmr(killed); //P2
 
         //Calcul du nouveau MMR
         BigDecimal onDeathRate = BigDecimal.valueOf(Config.ON_DEATH_RATE); //A
@@ -37,16 +37,16 @@ public class ScoreService {
         killed.sendMessage("ton nouveau MMR :" + killedNextMmr);
     }
 
-    public double getPlayerMmr(Player player) {
+    public BigDecimal getPlayerMmr(Player player) {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayer(player);
         if (playerMmrEntity == null) {
-            return Config.DEFAULT_MMR;
+            return BigDecimal.valueOf(Config.DEFAULT_MMR);
         }
         return playerMmrEntity.mmr();
     }
 
-    public double getPlayerMmr(String playerName) throws PlayerMMRNotFoundException {
+    public BigDecimal getPlayerMmr(String playerName) throws PlayerMMRNotFoundException {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayerName(playerName);
         if (playerMmrEntity == null) {
@@ -55,13 +55,13 @@ public class ScoreService {
         return playerMmrEntity.mmr();
     }
 
-    public boolean addMmrToPlayer(String playerName, double mmr, boolean negative) throws PlayerMMRNotFoundException {
+    public boolean addMmrToPlayer(String playerName, BigDecimal mmr, boolean negative) throws PlayerMMRNotFoundException {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayerName(playerName);
         if (playerMmrEntity == null) {
             throw new PlayerMMRNotFoundException();
         }
-        playerMmrEntity.addMmr(negative ? -1 * mmr : mmr);
+        playerMmrEntity.addMmr(negative ? mmr.multiply(BigDecimal.valueOf(-1)) : mmr);
         return playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
 
@@ -69,9 +69,15 @@ public class ScoreService {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayer(player);
         if (playerMmrEntity == null) {
-            playerMmrRepository.insertPlayerMmr(player, newMmr);
+            playerMmrEntity = PlayerMmrEntity.builder()
+                    .playerUUID(player.getUniqueId())
+                    .playerName(player.getName())
+                    .mmr(newMmr)
+                    .build();
+            playerMmrRepository.insertPlayerMmr(playerMmrEntity);
         } else {
-            playerMmrRepository.updatePlayerMmr(player, newMmr);
+            playerMmrEntity.mmr(newMmr);
+            playerMmrRepository.updatePlayerMmr(playerMmrEntity);
         }
     }
 }

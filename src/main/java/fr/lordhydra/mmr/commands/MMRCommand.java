@@ -33,19 +33,19 @@ public class MMRCommand extends AbstractCommand {
         ScoreService scoreService = new ScoreService();
         BigDecimal mmr;
         if (args.length == 0) {
-            mmr = BigDecimal.valueOf(scoreService.getPlayerMmr(player));
+            mmr = scoreService.getPlayerMmr(player);
             return Result.ok(Lang.currentPlayerMmrMessage.replace("{mmr}", mmr.toString()));
         }
         String playerName = args[0];
         Player targerPlayer = Bukkit.getPlayer(playerName);
         if (targerPlayer == null) {
             try {
-                mmr = BigDecimal.valueOf(scoreService.getPlayerMmr(playerName));
+                mmr = scoreService.getPlayerMmr(playerName);
             } catch (PlayerMMRNotFoundException e) {
                 return Result.error(Lang.playerNotFound);
             }
         } else {
-            mmr = BigDecimal.valueOf(scoreService.getPlayerMmr(targerPlayer));
+            mmr = scoreService.getPlayerMmr(targerPlayer);
         }
         return Result.ok(
                 Lang.otherPLayerMmrMessage
