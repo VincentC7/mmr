@@ -10,6 +10,9 @@ public class Lang {
     //Default
     public static String unknownCommand, cantBeExecuteByTerminal, playerNotFound;
 
+    //Player command
+    public static String currentPlayerMmrMessage, otherPLayerMmrMessage;
+
     //Admin commands
     public static String invalidMmrFormat;
     //Add
@@ -28,6 +31,9 @@ public class Lang {
         playerNotFound = configuration.getString("commands.default.playerNotFound");
 
         invalidMmrFormat = configuration.getString("commands.admin.invalidMmrFormat");
+
+        currentPlayerMmrMessage = configuration.getString("commands.player.rank.currentMmrMessage");
+        otherPLayerMmrMessage = configuration.getString("commands.player.rank.playerMmrMessage");
 
         invalidAddCommand = configuration.getString("commands.admin.add.invalidCommand");
         addNegativeMmrParamError = configuration.getString("commands.admin.add.negativeMmrParamError");
