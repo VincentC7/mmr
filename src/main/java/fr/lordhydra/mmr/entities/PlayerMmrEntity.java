@@ -1,16 +1,13 @@
 package fr.lordhydra.mmr.entities;
 
-import fr.lordhydra.mmr.services.StorageService;
-import fr.lordhydra.mmr.utils.Logger;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
 @Builder
@@ -24,12 +21,16 @@ public class PlayerMmrEntity {
     private UUID playerUUID;
 
     @Getter
-    private String playerName, created, updated;
+    private String playerName;
 
     @Getter
-    private Double mmr;
+    private Date created, updated;
 
-    public void addMmr(double mmrToAdd) {
-        mmr+=mmrToAdd;
+    @Getter
+    @Setter
+    private BigDecimal mmr;
+
+    public void addMmr(BigDecimal mmrToAdd) {
+        mmr = mmr.add(mmrToAdd);
     }
 }

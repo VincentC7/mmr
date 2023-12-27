@@ -5,9 +5,8 @@ import fr.lordhydra.mmr.services.StorageService;
 import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
 
-import java.math.BigDecimal;
 import java.sql.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PlayerMmrRepository {
@@ -64,9 +63,9 @@ public class PlayerMmrRepository {
                         .id(rs.getInt(1))
                         .playerUUID(UUID.fromString(rs.getString(2)))
                         .playerName(rs.getString(3))
-                        .created(rs.getString(4))
-                        .updated(rs.getString(5))
-                        .mmr(rs.getDouble(6))
+                        .created(rs.getDate(4))
+                        .updated(rs.getDate(5))
+                        .mmr(rs.getBigDecimal(6))
                         .build();
             }
         } catch (SQLException e) {
@@ -75,37 +74,22 @@ public class PlayerMmrRepository {
         return null;
     }
 
-    public void insertPlayerMmr(Player player, BigDecimal newMmr) {
+    public void insertPlayerMmr(PlayerMmrEntity playerMmrEntity) {
         Connection connection = StorageService.getInstance().getConnection();
         String sql = """
                 INSERT INTO PlayerMmr(playerUUID, playerName, created, updated, mmr) VALUES (?, ?, ?, ?, ?);
                 """;
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            LocalDate today = LocalDate.now();
-            stmt.setString(1, player.getUniqueId().toString());
-            stmt.setString(2, player.getName());
-            stmt.setDate(3, Date.valueOf(today));
-            stmt.setDate(4, Date.valueOf(today));
-            stmt.setBigDecimal(5, newMmr);
+            LocalDateTime today = LocalDateTime.now();
+            Logger.getInstance().info(today.toString());
+            stmt.setString(1, playerMmrEntity.playerUUID().toString());
+            stmt.setString(2, playerMmrEntity.playerName());
+            stmt.setString(3, today.toString());
+            stmt.setString(4, today.toString());
+            stmt.setBigDecimal(5, playerMmrEntity.mmr());
             Logger.getInstance().info(stmt.toString());
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            Logger.getInstance().error(e.getMessage());
-        }
-    }
-
-    public void updatePlayerMmr(Player player, BigDecimal newMmr) {
-        Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                 Update PlayerMmr SET mmr = ? WHERE playerUUID = ?;
-                """;
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setBigDecimal(1, newMmr);
-            stmt.setString(2, player.getUniqueId().toString());
-            stmt.executeUpdate();
-            Logger.getInstance().info(stmt.toString());
         } catch (SQLException e) {
             Logger.getInstance().error(e.getMessage());
         }
@@ -115,15 +99,16 @@ public class PlayerMmrRepository {
         Connection connection = StorageService.getInstance().getConnection();
         String sql = """
                  Update PlayerMmr
-                    SET mmr = ?
+                    SET mmr = ?, updated = ?
                     WHERE playerUUID = ?;
                 """;
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setBigDecimal(1, BigDecimal.valueOf(playerMmrEntity.mmr()));
-            stmt.setString(2, String.valueOf(playerMmrEntity.playerUUID()));
-            stmt.executeUpdate();
+            stmt.setBigDecimal(1, playerMmrEntity.mmr());
+            stmt.setString(2, LocalDateTime.now().toString());
+            stmt.setString(3, playerMmrEntity.playerUUID().toString());
             Logger.getInstance().info(stmt.toString());
+            stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
             Logger.getInstance().error(e.getMessage());

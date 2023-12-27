@@ -6,6 +6,8 @@ import fr.lordhydra.mmr.error.Result;
 import fr.lordhydra.mmr.services.ScoreService;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+
 public class MmrAdminCommand extends AbstractCommand {
     @Override
     protected Result mapPlayerAction(Player playerWhoExecutedTheCommand, String action, String[] args) {
@@ -33,14 +35,14 @@ public class MmrAdminCommand extends AbstractCommand {
         ScoreService scoreService = new ScoreService();
         String targetPlayerName = args[0];
         String strMmrToAdd = args[1];
-        double mmrToAdd;
+        BigDecimal mmrToAdd;
         try {
-            mmrToAdd = Double.parseDouble(strMmrToAdd);
+            mmrToAdd = new BigDecimal(strMmrToAdd);
         } catch (NumberFormatException e) {
             return Result.error(Lang.invalidMmrFormat);
         }
 
-        if (mmrToAdd < 0) {
+        if (mmrToAdd.compareTo(BigDecimal.ZERO) > 0) {
             return Result.error(negative ? Lang.delNegativeMmrParamError : Lang.addNegativeMmrParamError);
         }
 
