@@ -3,6 +3,10 @@ commands:
     unknownCommand: "Commande inconnue"
     cantBeExecuteByTerminal: "Cette commande doit être faite par un joueur"
     playerNotFound: "Le joueur n'a pas été trouvé"
+  player:
+    rank:
+      currentMmrMessage: "Actuellement, tu as un MMR de : {mmr}"
+      playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr}"
   admin:
     invalidMmrFormat: "Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50"
     add:

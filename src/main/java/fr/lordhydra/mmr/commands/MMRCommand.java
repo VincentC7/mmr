@@ -34,7 +34,7 @@ public class MMRCommand extends AbstractCommand {
         BigDecimal mmr;
         if (args.length == 0) {
             mmr = BigDecimal.valueOf(scoreService.getPlayerMmr(player));
-            return Result.ok("Actuellement, tu as un MMR de : " + mmr);
+            return Result.ok(Lang.currentPlayerMmrMessage.replace("{mmr}", mmr.toString()));
         }
         String playerName = args[0];
         Player targerPlayer = Bukkit.getPlayer(playerName);
@@ -42,12 +42,16 @@ public class MMRCommand extends AbstractCommand {
             try {
                 mmr = BigDecimal.valueOf(scoreService.getPlayerMmr(playerName));
             } catch (PlayerMMRNotFoundException e) {
-                return Result.error("Le joueur que tu cherches n'a pas été trouvé");
+                return Result.error(Lang.playerNotFound);
             }
         } else {
             mmr = BigDecimal.valueOf(scoreService.getPlayerMmr(targerPlayer));
         }
-        return Result.ok("Le MMR du joueur " + playerName + " est de : " + mmr);
+        return Result.ok(
+                Lang.otherPLayerMmrMessage
+                        .replace("{mmr}", mmr.toString())
+                        .replace("{playerName}", playerName)
+        );
     }
     
 }
