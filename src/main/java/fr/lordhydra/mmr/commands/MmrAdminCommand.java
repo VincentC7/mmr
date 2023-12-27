@@ -10,8 +10,8 @@ public class MmrAdminCommand extends AbstractCommand {
     @Override
     protected Result mapPlayerAction(Player playerWhoExecutedTheCommand, String action, String[] args) {
         return switch (action) {
-            case "add" -> addMmrToPlayer(args);
-            case "del" -> delMmrToPlayer(args);
+            case "add" -> addMmrToPlayer(args, false);
+            case "del" -> addMmrToPlayer(args, true);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -26,9 +26,10 @@ public class MmrAdminCommand extends AbstractCommand {
 
     }
 
-    private Result addMmrToPlayer(String[] args) {
+    private Result addMmrToPlayer(String[] args, boolean negative) {
         if (args.length <= 1 ) {
-            return Result.error("La commande n'est pas bonne. Voici un exemple valide : /mmr add nomDuJoueur add 1000");
+            String validCommand = "/mmr" + (negative ? "add" : "del") + "nomDuJoueur add 1000";
+            return Result.error("La commande n'est pas bonne. Voici un exemple valide : " + validCommand);
         }
         ScoreService scoreService = new ScoreService();
         String targetPlayerName = args[0];
@@ -41,12 +42,13 @@ public class MmrAdminCommand extends AbstractCommand {
         }
 
         if (mmrToAdd < 0) {
-            return Result.error("Le mmr que tu souhaites ajouter doit être strictement positif");
+            return Result.error("Le mmr que tu souhaites " + (negative ? "retirer" : "ajouter") + " doit être strictement positif");
         }
 
         try {
-            boolean result = scoreService.addMmrToPlayer(targetPlayerName, mmrToAdd);
-            return result ? Result.ok("Le mmr a bien été ajouté au joueur") :
+            boolean result = scoreService.addMmrToPlayer(targetPlayerName, mmrToAdd, negative);
+            String message = "Le mmr a bien été " + (negative ? "retiré" : "ajouté") + " au joueur";
+            return result ? Result.ok(message) :
                     Result.error("Une erreur est survenue lors de l'ajout du mmr au joueur");
 
         } catch (PlayerMMRNotFoundException e) {
