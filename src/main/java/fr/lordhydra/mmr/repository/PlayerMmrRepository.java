@@ -110,4 +110,24 @@ public class PlayerMmrRepository {
             Logger.getInstance().error(e.getMessage());
         }
     }
+
+    public boolean updatePlayerMmr(PlayerMmrEntity playerMmrEntity) {
+        Connection connection = StorageService.getInstance().getConnection();
+        String sql = """
+                 Update PlayerMmr
+                    SET mmr = ?
+                    WHERE playerUUID = ?;
+                """;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setBigDecimal(1, BigDecimal.valueOf(playerMmrEntity.mmr()));
+            stmt.setString(2, String.valueOf(playerMmrEntity.playerUUID()));
+            stmt.executeUpdate();
+            Logger.getInstance().info(stmt.toString());
+            return true;
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
+            return false;
+        }
+    }
 }

@@ -4,6 +4,7 @@ import fr.lordhydra.mmr.services.StorageService;
 import fr.lordhydra.mmr.utils.Logger;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -28,4 +29,7 @@ public class PlayerMmrEntity {
     @Getter
     private Double mmr;
 
+    public void addMmr(double mmrToAdd) {
+        mmr+=mmrToAdd;
+    }
 }

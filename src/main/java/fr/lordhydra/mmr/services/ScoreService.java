@@ -55,6 +55,16 @@ public class ScoreService {
         return playerMmrEntity.mmr();
     }
 
+    public boolean addMmrToPlayer(String playerName, double mmr) throws PlayerMMRNotFoundException {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayerName(playerName);
+        if (playerMmrEntity == null) {
+            throw new PlayerMMRNotFoundException();
+        }
+        playerMmrEntity.addMmr(mmr);
+        return playerMmrRepository.updatePlayerMmr(playerMmrEntity);
+    }
+
     private void savePlayerMmr(Player player, BigDecimal newMmr) {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayer(player);

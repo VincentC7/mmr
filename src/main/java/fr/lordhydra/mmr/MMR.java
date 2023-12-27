@@ -1,6 +1,7 @@
 package fr.lordhydra.mmr;
 
 import fr.lordhydra.mmr.commands.MMRCommand;
+import fr.lordhydra.mmr.commands.MmrAdminCommand;
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.listeners.PlayerDeathListener;
@@ -30,6 +31,7 @@ public final class MMR extends JavaPlugin {
 
         //Commands
         Objects.requireNonNull(getCommand("mmr")).setExecutor(new MMRCommand());
+        Objects.requireNonNull(getCommand("mmradmin")).setExecutor(new MmrAdminCommand());
 
         //Services
         StorageService.getInstance().init();

@@ -8,3 +8,6 @@ description: DummyDescription
 commands:
   mmr:
     description: Commandes pour les joueurs
+  mmradmin:
+    description: Commandes pour les admins
+    aliases: ["mmra"]
