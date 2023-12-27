@@ -28,8 +28,7 @@ public class MmrAdminCommand extends AbstractCommand {
 
     private Result addMmrToPlayer(String[] args, boolean negative) {
         if (args.length <= 1 ) {
-            String validCommand = "/mmr" + (negative ? "add" : "del") + "nomDuJoueur add 1000";
-            return Result.error("La commande n'est pas bonne. Voici un exemple valide : " + validCommand);
+            return Result.error(negative ? Lang.invalidDelCommand : Lang.invalidAddCommand);
         }
         ScoreService scoreService = new ScoreService();
         String targetPlayerName = args[0];
@@ -38,21 +37,21 @@ public class MmrAdminCommand extends AbstractCommand {
         try {
             mmrToAdd = Double.parseDouble(strMmrToAdd);
         } catch (NumberFormatException e) {
-            return Result.error("Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50");
+            return Result.error(Lang.invalidMmrFormat);
         }
 
         if (mmrToAdd < 0) {
-            return Result.error("Le mmr que tu souhaites " + (negative ? "retirer" : "ajouter") + " doit être strictement positif");
+            return Result.error(negative ? Lang.delNegativeMmrParamError : Lang.addNegativeMmrParamError);
         }
 
         try {
             boolean result = scoreService.addMmrToPlayer(targetPlayerName, mmrToAdd, negative);
-            String message = "Le mmr a bien été " + (negative ? "retiré" : "ajouté") + " au joueur";
-            return result ? Result.ok(message) :
-                    Result.error("Une erreur est survenue lors de l'ajout du mmr au joueur");
+            String successMessage = negative ? Lang.delSuccessMessage : Lang.addSuccessMessage;
+            String errorMessage = negative ? Lang.delErrorMessage : Lang.addErrorMessage;
+            return result ? Result.ok(successMessage) : Result.error(errorMessage);
 
         } catch (PlayerMMRNotFoundException e) {
-            return Result.error("Le joueur n'a pas été trouvé");
+            return Result.error(Lang.playerNotFound);
         }
     }
 }

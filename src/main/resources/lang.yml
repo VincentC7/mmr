@@ -2,3 +2,16 @@ commands:
   default:
     unknownCommand: "Commande inconnue"
     cantBeExecuteByTerminal: "Cette commande doit être faite par un joueur"
+    playerNotFound: "Le joueur n'a pas été trouvé"
+  admin:
+    invalidMmrFormat: "Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50"
+    add:
+      invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmr add nomDuJoueur add 1000"
+      negativeMmrParamError: "Le mmr que tu souhaites ajouter doit être strictement positif"
+      successMessage: "Le mmr a bien été ajouté au joueur"
+      errorMessage: "Une erreur est survenue lors de l'ajout du mmr au joueur"
+    del:
+      invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmr del nomDuJoueur add 1000"
+      negativeMmrParamError: "Le mmr que tu souhaites retirer doit être strictement positif"
+      successMessage: "Le mmr a bien été retiré au joueur"
+      errorMessage: "Une erreur est survenue lors de la suppression du mmr au joueur"
