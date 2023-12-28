@@ -24,6 +24,9 @@ public class Lang {
     //Del
     public static String invalidDelCommand, delNegativeMmrParamError, delSuccessMessage, delErrorMessage;
 
+    //Reset
+    public static String invalidResetCommand, resetSuccessMessage;
+
     //================= Commands ================= //
 
     public static void load() {
@@ -47,6 +50,9 @@ public class Lang {
         invalidDelCommand = configuration.getString("commands.admin.del.invalidCommand");
         delSuccessMessage = configuration.getString("commands.admin.del.successMessage");
         delErrorMessage = configuration.getString("commands.admin.del.errorMessage");
+
+        invalidResetCommand = configuration.getString("commands.admin.reset.invalidCommand");
+        resetSuccessMessage = configuration.getString("commands.admin.reset.successMessage");
 
         invalidTopCommand = configuration.getString("commands.player.top.invalidCommand");
         topNextPageMessage = configuration.getString("commands.player.top.nextPageMessage");
