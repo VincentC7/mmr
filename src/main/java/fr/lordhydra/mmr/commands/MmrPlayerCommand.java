@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 
-public class MMRCommand extends AbstractCommand {
+public class MmrPlayerCommand extends AbstractCommand {
 
     @Override
     protected Result mapPlayerAction(Player player, String action, String[] args) {
