@@ -1,13 +1,16 @@
 package fr.lordhydra.mmr.commands;
 
 import fr.lordhydra.mmr.config.Lang;
+import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
 import fr.lordhydra.mmr.error.Result;
+import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class MmrPlayerCommand extends AbstractCommand {
 
@@ -15,6 +18,7 @@ public class MmrPlayerCommand extends AbstractCommand {
     protected Result mapPlayerAction(Player player, String action, String[] args) {
         return switch (action) {
             case "rank" -> displayPlayerMMR(player, args);
+            case "top" -> displayTopPlayerMMR(player, args);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -52,6 +56,25 @@ public class MmrPlayerCommand extends AbstractCommand {
                         .replace("{mmr}", mmr.toString())
                         .replace("{playerName}", playerName)
         );
+    }
+
+    private Result displayTopPlayerMMR(Player player, String[] args) {
+        RankingService rankingService = new RankingService();
+        ArrayList<PlayerMmrEntity> playerMmrEntities = rankingService.fetchPlayerMmr();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("===========================").append("\n");
+        int top = 1;
+        for (PlayerMmrEntity playerMmrEntity : playerMmrEntities) {
+            stringBuilder
+                    .append(top++).append("# ")
+                    .append(playerMmrEntity.playerName())
+                    .append(" : ")
+                    .append(playerMmrEntity.mmr())
+                    .append("\n");
+        }
+        stringBuilder.append("===========================");
+        player.sendMessage(stringBuilder.toString());
+        return Result.ok();
     }
     
 }

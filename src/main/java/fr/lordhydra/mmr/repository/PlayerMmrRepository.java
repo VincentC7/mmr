@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class PlayerMmrRepository {
@@ -114,5 +117,32 @@ public class PlayerMmrRepository {
             Logger.getInstance().error(e.getMessage());
             return false;
         }
+    }
+
+    public ArrayList<PlayerMmrEntity> getPlayersMmrs() {
+        Connection connection = StorageService.getInstance().getConnection();
+        String sql = """
+                    SELECT * FROM PlayerMmr order by mmr desc;
+                """;
+        ResultSet rs;
+        ArrayList<PlayerMmrEntity> playerMmrEntities = new ArrayList<>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            Logger.getInstance().info(rs.toString());
+            while (rs.next()) {
+                PlayerMmrEntity playerMmrEntity = PlayerMmrEntity.builder()
+                        .playerUUID(UUID.fromString(rs.getString("playerUUID")))
+                        .playerName(rs.getString("playerName"))
+                        .created(rs.getDate("created"))
+                        .updated(rs.getDate("updated"))
+                        .mmr(rs.getBigDecimal("mmr"))
+                        .build();
+                playerMmrEntities.add(playerMmrEntity);
+            }
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
+        }
+        return playerMmrEntities;
     }
 }
