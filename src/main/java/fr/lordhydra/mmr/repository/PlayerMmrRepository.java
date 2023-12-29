@@ -1,5 +1,6 @@
 package fr.lordhydra.mmr.repository;
 
+import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.services.StorageService;
 import fr.lordhydra.mmr.utils.Logger;
@@ -119,17 +120,19 @@ public class PlayerMmrRepository {
         }
     }
 
-    public ArrayList<PlayerMmrEntity> getPlayersMmrs() {
+    public ArrayList<PlayerMmrEntity> getPlayersMmrs(int page) {
         Connection connection = StorageService.getInstance().getConnection();
         String sql = """
-                    SELECT * FROM PlayerMmr order by mmr desc;
+                    SELECT * FROM PlayerMmr order by mmr desc LIMIT ? OFFSET ?;
                 """;
         ResultSet rs;
         ArrayList<PlayerMmrEntity> playerMmrEntities = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Config.TOP_MMR_PAGE_SIZE);
+            stmt.setInt(2, Config.TOP_MMR_PAGE_SIZE * (page - 1));
             rs = stmt.executeQuery();
-            Logger.getInstance().info(rs.toString());
+            Logger.getInstance().info(stmt.toString());
             while (rs.next()) {
                 PlayerMmrEntity playerMmrEntity = PlayerMmrEntity.builder()
                         .playerUUID(UUID.fromString(rs.getString("playerUUID")))

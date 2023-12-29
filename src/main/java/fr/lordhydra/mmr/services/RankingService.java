@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class RankingService {
 
-    public ArrayList<PlayerMmrEntity> fetchPlayerMmr() {
+    public ArrayList<PlayerMmrEntity> fetchPlayerMmr(int page) {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
-        return playerMmrRepository.getPlayersMmrs();
+        return playerMmrRepository.getPlayersMmrs(page);
     }
 }

@@ -10,10 +10,13 @@ public class Lang {
     //Default
     public static String unknownCommand, cantBeExecuteByTerminal, playerNotFound;
 
-    //Player command
+    // ------- Player command -------
+    //Rank
     public static String currentPlayerMmrMessage, otherPLayerMmrMessage;
+    //Top
+    public static String invalidTopCommand;
 
-    //Admin commands
+    // ------- Admin commands -------
     public static String invalidMmrFormat;
     //Add
     public static String invalidAddCommand, addNegativeMmrParamError, addSuccessMessage, addErrorMessage;
@@ -44,5 +47,7 @@ public class Lang {
         invalidDelCommand = configuration.getString("commands.admin.del.invalidCommand");
         delSuccessMessage = configuration.getString("commands.admin.del.successMessage");
         delErrorMessage = configuration.getString("commands.admin.del.errorMessage");
+
+        invalidTopCommand = configuration.getString("commands.player.top.invalidCommand");
     }
 }

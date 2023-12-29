@@ -1,5 +1,6 @@
 package fr.lordhydra.mmr.commands;
 
+import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
@@ -59,14 +60,25 @@ public class MmrPlayerCommand extends AbstractCommand {
     }
 
     private Result displayTopPlayerMMR(Player player, String[] args) {
+        int page = 1;
+        if (args.length != 0) {
+            try {
+                page = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                return Result.error(Lang.invalidTopCommand);
+            }
+        }
         RankingService rankingService = new RankingService();
-        ArrayList<PlayerMmrEntity> playerMmrEntities = rankingService.fetchPlayerMmr();
+        ArrayList<PlayerMmrEntity> playerMmrEntities = rankingService.fetchPlayerMmr(page);
+        if (playerMmrEntities.isEmpty()) {
+            return Result.ok("Aucun résultat");
+        }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("===========================").append("\n");
         int top = 1;
         for (PlayerMmrEntity playerMmrEntity : playerMmrEntities) {
             stringBuilder
-                    .append(top++).append("# ")
+                    .append(top++ + (Config.TOP_MMR_PAGE_SIZE * (page - 1))).append("# ")
                     .append(playerMmrEntity.playerName())
                     .append(" : ")
                     .append(playerMmrEntity.mmr())
