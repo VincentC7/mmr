@@ -1,5 +1,6 @@
 package fr.lordhydra.mmr.repository;
 
+import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.services.StorageService;
 import fr.lordhydra.mmr.utils.Logger;
@@ -7,6 +8,9 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class PlayerMmrRepository {
@@ -114,5 +118,51 @@ public class PlayerMmrRepository {
             Logger.getInstance().error(e.getMessage());
             return false;
         }
+    }
+
+    public ArrayList<PlayerMmrEntity> getPlayersMmrs(int page) {
+        Connection connection = StorageService.getInstance().getConnection();
+        String sql = """
+                    SELECT * FROM PlayerMmr order by mmr desc LIMIT ? OFFSET ?;
+                """;
+        ArrayList<PlayerMmrEntity> playerMmrEntities = new ArrayList<>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Config.TOP_MMR_PAGE_SIZE);
+            stmt.setInt(2, Config.TOP_MMR_PAGE_SIZE * (page - 1));
+            ResultSet rs = stmt.executeQuery();
+            Logger.getInstance().info(stmt.toString());
+            while (rs.next()) {
+                PlayerMmrEntity playerMmrEntity = PlayerMmrEntity.builder()
+                        .playerUUID(UUID.fromString(rs.getString("playerUUID")))
+                        .playerName(rs.getString("playerName"))
+                        .created(rs.getDate("created"))
+                        .updated(rs.getDate("updated"))
+                        .mmr(rs.getBigDecimal("mmr"))
+                        .build();
+                playerMmrEntities.add(playerMmrEntity);
+            }
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
+        }
+        return playerMmrEntities;
+    }
+
+    public int countPlayerMmr() {
+        Connection connection = StorageService.getInstance().getConnection();
+        String sql = """
+                    SELECT count(*) as count FROM PlayerMmr;
+                """;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            Logger.getInstance().info(stmt.toString());
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
+        }
+        return 0;
     }
 }
