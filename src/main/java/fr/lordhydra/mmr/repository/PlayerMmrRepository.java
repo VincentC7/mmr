@@ -125,13 +125,12 @@ public class PlayerMmrRepository {
         String sql = """
                     SELECT * FROM PlayerMmr order by mmr desc LIMIT ? OFFSET ?;
                 """;
-        ResultSet rs;
         ArrayList<PlayerMmrEntity> playerMmrEntities = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, Config.TOP_MMR_PAGE_SIZE);
             stmt.setInt(2, Config.TOP_MMR_PAGE_SIZE * (page - 1));
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             Logger.getInstance().info(stmt.toString());
             while (rs.next()) {
                 PlayerMmrEntity playerMmrEntity = PlayerMmrEntity.builder()
@@ -147,5 +146,23 @@ public class PlayerMmrRepository {
             Logger.getInstance().error(e.getMessage());
         }
         return playerMmrEntities;
+    }
+
+    public int countPlayerMmr() {
+        Connection connection = StorageService.getInstance().getConnection();
+        String sql = """
+                    SELECT count(*) as count FROM PlayerMmr;
+                """;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            Logger.getInstance().info(stmt.toString());
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
+        }
+        return 0;
     }
 }

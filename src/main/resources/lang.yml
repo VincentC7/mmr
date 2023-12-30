@@ -9,6 +9,7 @@ commands:
       playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr}"
     top:
       invalidCommand: "La commande n'est pas bonne. Voici un exemple de commande valide '/mmr top 1' ou /mmr rank 5"
+      nextPageMessage: "Tapez {command} pour aller à la page suivante"
   admin:
     invalidMmrFormat: "Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50"
     add:

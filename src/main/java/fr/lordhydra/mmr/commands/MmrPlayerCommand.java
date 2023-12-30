@@ -8,9 +8,11 @@ import fr.lordhydra.mmr.error.Result;
 import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class MmrPlayerCommand extends AbstractCommand {
@@ -73,20 +75,43 @@ public class MmrPlayerCommand extends AbstractCommand {
         if (playerMmrEntities.isEmpty()) {
             return Result.ok("Aucun résultat");
         }
+        player.sendMessage(buildTopMmrString(playerMmrEntities, page));
+        return Result.ok();
+    }
+
+    private String buildTopMmrString(ArrayList<PlayerMmrEntity> playerMmrEntities, int page) {
+        RankingService rankingService = new RankingService();
+        int pageCount = BigDecimal.valueOf((double) rankingService.countPlayerMmr() / Config.TOP_MMR_PAGE_SIZE).setScale(0, RoundingMode.CEILING).intValue();
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("===========================").append("\n");
+        stringBuilder
+                .append(ChatColor.YELLOW).append(" ---- ")
+                .append(ChatColor.GOLD).append("top MMR")
+                .append(ChatColor.YELLOW).append(" -- ")
+                .append(ChatColor.GOLD).append("Page ")
+                .append(ChatColor.DARK_RED).append(page)
+                .append(ChatColor.GOLD).append("/")
+                .append(ChatColor.DARK_RED).append(pageCount)
+                .append(ChatColor.YELLOW).append(" ---- ")
+                .append("\n")
+                .append(ChatColor.WHITE);
         int top = 1;
         for (PlayerMmrEntity playerMmrEntity : playerMmrEntities) {
             stringBuilder
-                    .append(top++ + (Config.TOP_MMR_PAGE_SIZE * (page - 1))).append("# ")
+                    .append(top++ + (Config.TOP_MMR_PAGE_SIZE * (page - 1))).append(". ")
                     .append(playerMmrEntity.playerName())
                     .append(" : ")
                     .append(playerMmrEntity.mmr())
                     .append("\n");
         }
-        stringBuilder.append("===========================");
-        player.sendMessage(stringBuilder.toString());
-        return Result.ok();
+        if (page != pageCount) {
+            stringBuilder
+                    .append(ChatColor.GOLD)
+                    .append(Lang.topNextPageMessage.replace(
+                    "{command}",
+                    ChatColor.RED + "/mmr top " + (page+1) + ChatColor.GOLD
+            ));
+        }
+        return stringBuilder.toString();
     }
     
 }

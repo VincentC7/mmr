@@ -14,7 +14,7 @@ public class Lang {
     //Rank
     public static String currentPlayerMmrMessage, otherPLayerMmrMessage;
     //Top
-    public static String invalidTopCommand;
+    public static String invalidTopCommand, topNextPageMessage;
 
     // ------- Admin commands -------
     public static String invalidMmrFormat;
@@ -49,5 +49,6 @@ public class Lang {
         delErrorMessage = configuration.getString("commands.admin.del.errorMessage");
 
         invalidTopCommand = configuration.getString("commands.player.top.invalidCommand");
+        topNextPageMessage = configuration.getString("commands.player.top.nextPageMessage");
     }
 }

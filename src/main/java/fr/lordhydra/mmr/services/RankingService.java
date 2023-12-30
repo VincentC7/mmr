@@ -11,4 +11,9 @@ public class RankingService {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         return playerMmrRepository.getPlayersMmrs(page);
     }
+
+    public int countPlayerMmr() {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        return playerMmrRepository.countPlayerMmr();
+    }
 }
