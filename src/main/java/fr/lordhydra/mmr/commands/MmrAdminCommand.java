@@ -43,7 +43,7 @@ public class MmrAdminCommand extends AbstractCommand {
             return Result.error(Lang.invalidMmrFormat);
         }
 
-        if (mmrToAdd.compareTo(BigDecimal.ZERO) > 0) {
+        if (mmrToAdd.compareTo(BigDecimal.ZERO) < 0) {
             return Result.error(negative ? Lang.delNegativeMmrParamError : Lang.addNegativeMmrParamError);
         }
 
