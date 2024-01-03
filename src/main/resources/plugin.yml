@@ -11,3 +11,4 @@ commands:
   mmradmin:
     description: Commandes pour les admins
     aliases: ["mmra"]
+    permission: mmr.admin.use
