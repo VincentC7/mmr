@@ -14,6 +14,7 @@ public class MmrAdminCommand extends AbstractCommand {
         return switch (action) {
             case "add" -> addMmrToPlayer(args, false);
             case "del" -> addMmrToPlayer(args, true);
+            case "reset" -> resetPlayerMmr(args);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -56,4 +57,19 @@ public class MmrAdminCommand extends AbstractCommand {
             return Result.error(Lang.playerNotFound);
         }
     }
+
+    private Result resetPlayerMmr(String[] args) {
+        if (args.length == 0) {
+            return Result.error(Lang.invalidResetCommand);
+        }
+        String playerName = args[0];
+        ScoreService scoreService = new ScoreService();
+        try {
+            scoreService.resetPlayerMmr(playerName);
+        } catch (PlayerMMRNotFoundException e) {
+            return Result.error(Lang.playerNotFound);
+        }
+        return Result.ok(Lang.resetSuccessMessage);
+    }
+
 }

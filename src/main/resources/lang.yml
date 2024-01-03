@@ -22,3 +22,6 @@ commands:
       negativeMmrParamError: "Le mmr que tu souhaites retirer doit être strictement positif"
       successMessage: "Le mmr a bien été retiré au joueur"
       errorMessage: "Une erreur est survenue lors de la suppression du mmr au joueur"
+    reset:
+      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr reset nomDuJoueur"
+      successMessage: "Le mmr du joueur à bien été réinitialisé"
