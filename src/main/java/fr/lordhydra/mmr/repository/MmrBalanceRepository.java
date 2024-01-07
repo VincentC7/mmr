@@ -1,13 +1,17 @@
 package fr.lordhydra.mmr.repository;
 
 import fr.lordhydra.mmr.entities.MmrBalanceEntity;
+import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.services.StorageService;
 import fr.lordhydra.mmr.utils.Logger;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class MmrBalanceRepository implements Repository {
 
@@ -48,7 +52,6 @@ public class MmrBalanceRepository implements Repository {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             LocalDateTime today = LocalDateTime.now();
-            Logger.getInstance().info(today.toString());
             stmt.setString(1, mmrBalanceEntity.firstPlayerUUID().toString());
             stmt.setString(2, mmrBalanceEntity.secondPlayerUUID().toString());
             stmt.setString(3, today.toString());
@@ -59,6 +62,38 @@ public class MmrBalanceRepository implements Repository {
             stmt.executeUpdate();
         } catch (SQLException e) {
             Logger.getInstance().error(e.getMessage());
+        }
+    }
+
+    public MmrBalanceEntity findByPlayers(Player firstPlayer, Player secondPlayer) {
+        Connection connection = StorageService.getInstance().getConnection();
+        String request = """
+                SELECT *
+                FROM MmrBalance
+                WHERE (first_player_uuid = ? AND second_player_uuid = ?) OR
+                    (first_player_uuid = ? AND second_player_uuid = ?)
+                """;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(request);
+            stmt.setString(1, firstPlayer.getUniqueId().toString());
+            stmt.setString(2, secondPlayer.getUniqueId().toString());
+            stmt.setString(3, secondPlayer.getUniqueId().toString());
+            stmt.setString(4, firstPlayer.getUniqueId().toString());
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            return MmrBalanceEntity.builder()
+                    .firstPlayerUUID(UUID.fromString(rs.getString(1)))
+                    .secondPlayerUUID(UUID.fromString(rs.getString(2)))
+                    .created(rs.getDate(3))
+                    .updated(rs.getDate(4))
+                    .balancePlayer1(rs.getInt(5))
+                    .balancePlayer2(rs.getInt(5))
+                    .build();
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
+            return null;
         }
     }
 
