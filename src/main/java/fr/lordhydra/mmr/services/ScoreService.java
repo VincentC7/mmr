@@ -4,7 +4,6 @@ import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
-import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
@@ -13,7 +12,8 @@ import java.math.RoundingMode;
 
 public class ScoreService {
 
-    public void applyMmrToPlayers(Player killer, Player killed) {
+    public void applyMmrToPlayers(Player killer, Player killed, BigDecimal mmrBalanceValue) {
+        if (mmrBalanceValue.equals(BigDecimal.ZERO)) return;
         BigDecimal killerMmr = getPlayerMmr(killer); //P1
         BigDecimal killedMmr = getPlayerMmr(killed); //P2
 
@@ -21,9 +21,13 @@ public class ScoreService {
         BigDecimal onDeathRate = BigDecimal.valueOf(Config.ON_DEATH_RATE); //A
         BigDecimal onKillRate = BigDecimal.valueOf(Config.ON_KILL_RATE); //B
 
-        BigDecimal gainForKiller = killedMmr.multiply(onKillRate)
+        BigDecimal gainForKiller = killedMmr
+                .multiply(onKillRate)
+                .multiply(mmrBalanceValue)
                 .round(new MathContext(3, RoundingMode.HALF_UP)); // P2 * A
-        BigDecimal loseForKilled = killedMmr.multiply(onDeathRate)
+        BigDecimal loseForKilled = killedMmr
+                .multiply(onDeathRate)
+                .multiply(mmrBalanceValue)
                 .round(new MathContext(3, RoundingMode.HALF_UP)); // P2 * B
 
         BigDecimal killerNextMmr = killerMmr.add(gainForKiller); // P1 + P2 * A

@@ -7,7 +7,7 @@ public class Config {
 
     public static Double ON_DEATH_RATE, ON_KILL_RATE;
 
-    public static int DEFAULT_MMR, TOP_MMR_PAGE_SIZE;
+    public static int DEFAULT_MMR, TOP_MMR_PAGE_SIZE, BALANCE_SIZE;
 
     public static void load() {
         FileConfiguration configuration = FileService.getInstance()
@@ -16,5 +16,6 @@ public class Config {
         ON_KILL_RATE = configuration.getDouble("onKillRate");
         DEFAULT_MMR = configuration.getInt("defaultMmr");
         TOP_MMR_PAGE_SIZE = configuration.getInt("topMmrPageSize");
+        BALANCE_SIZE = configuration.getInt("balanceSize");
     }
 }

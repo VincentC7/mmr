@@ -56,8 +56,8 @@ public class MmrBalanceRepository implements Repository {
             stmt.setString(2, mmrBalanceEntity.secondPlayerUUID().toString());
             stmt.setString(3, today.toString());
             stmt.setString(4, today.toString());
-            stmt.setInt(5, 0);
-            stmt.setInt(6, 0);
+            stmt.setInt(5, mmrBalanceEntity.balancePlayer1());
+            stmt.setInt(6, mmrBalanceEntity.balancePlayer2());
             Logger.getInstance().info(stmt.toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
