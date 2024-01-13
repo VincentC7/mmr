@@ -1,7 +1,6 @@
 package fr.lordhydra.mmr.repository;
 
 import fr.lordhydra.mmr.entities.MmrBalanceEntity;
-import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.services.StorageService;
 import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
@@ -94,6 +93,32 @@ public class MmrBalanceRepository implements Repository {
         } catch (SQLException e) {
             Logger.getInstance().error(e.getMessage());
             return null;
+        }
+    }
+
+    public void update(MmrBalanceEntity mmrBalanceEntity) {
+        Connection connection = StorageService.getInstance().getConnection();
+        String sql = """
+                UPDATE MmrBalance SET
+                    updated = ?,
+                    first_player_balance = ?,
+                    second_player_balance = ?
+                WHERE
+                    first_player_uuid = ? AND
+                    second_player_uuid = ?
+                """;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            LocalDateTime today = LocalDateTime.now();
+            stmt.setString(1, today.toString());
+            stmt.setInt(2, mmrBalanceEntity.balancePlayer1());
+            stmt.setInt(3, mmrBalanceEntity.balancePlayer2());
+            stmt.setString(4, mmrBalanceEntity.firstPlayerUUID().toString());
+            stmt.setString(5, mmrBalanceEntity.secondPlayerUUID().toString());
+            Logger.getInstance().info(stmt.toString());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
         }
     }
 
