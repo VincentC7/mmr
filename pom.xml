@@ -15,7 +15,7 @@
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dev.build.outputFile>C:\Users\Vincent\Desktop\Serv-mc\local.mini\plugins\${artifactId}.jar</dev.build.outputFile>
+        <dev.build.outputFile>/home/vchoquer/perso/mcDevEnv/plugins/${artifactId}.jar</dev.build.outputFile>
     </properties>
 
     <build>

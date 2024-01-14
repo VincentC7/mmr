@@ -3,6 +3,7 @@ package fr.lordhydra.mmr.services;
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.MmrBalanceEntity;
 import fr.lordhydra.mmr.repository.MmrBalanceRepository;
+import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
@@ -44,6 +45,7 @@ public class MmrBalanceService {
         MmrBalanceRepository mmrBalanceRepository = new MmrBalanceRepository();
         int balancePlayer1 = mmrBalanceEntity.balancePlayer1();
         int balancePlayer2 = mmrBalanceEntity.balancePlayer2();
+        Logger.getInstance().info(mmrBalanceEntity.toString());
         if (mmrBalanceEntity.firstPlayerUUID().equals(killer.getUniqueId())) {
             mmrBalanceEntity.balancePlayer1(balancePlayer1 + 1);
             mmrBalanceEntity.balancePlayer2(balancePlayer2 - 1);
@@ -51,6 +53,7 @@ public class MmrBalanceService {
             mmrBalanceEntity.balancePlayer1(balancePlayer1 - 1);
             mmrBalanceEntity.balancePlayer2(balancePlayer2 + 1);
         }
+        Logger.getInstance().info(mmrBalanceEntity.toString());
         mmrBalanceRepository.update(mmrBalanceEntity);
     }
 }
