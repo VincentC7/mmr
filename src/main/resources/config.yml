@@ -2,3 +2,4 @@ onKillRate: 0.01 #Taux qu'on applique au joueur qui fait le kill
 onDeathRate: 0.01 #Taux qu'on applique au joueur qui a été tué
 defaultMmr: 1000 #MMR de base
 topMmrPageSize: 10 #Nombre de joueurs affiché quand on fait /mmr top X
+balanceSize: 10 #Nombre de billes de chaque coté de la balance des joueurs

@@ -13,9 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class PlayerMmrRepository {
+public class PlayerMmrRepository implements Repository{
 
-    public static boolean createTable() {
+    @Override
+    public void createTable() {
         Connection connection = StorageService.getInstance().getConnection();
         String sql = """
                 CREATE TABLE IF NOT EXISTS PlayerMmr(
@@ -31,11 +32,9 @@ public class PlayerMmrRepository {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.executeUpdate();
-            return true;
         } catch (SQLException e) {
             Logger.getInstance().error(e.getMessage());
         }
-        return false;
     }
 
     public PlayerMmrEntity findByPlayer(Player player) {
