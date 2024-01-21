@@ -23,8 +23,7 @@ public class MmrBalanceRepository implements Repository {
                     second_player_uuid varchar(36) NOT NULL,
                     created DATETIME NOT NULL,
                     updated DATETIME NOT NULL,
-                    first_player_balance TINYINT NOT NULL,
-                    second_player_balance TINYINT NOT NULL,
+                    balance TINYINT NOT NULL,
                     PRIMARY KEY(first_player_uuid, second_player_uuid)
                 );
                 """;
@@ -44,9 +43,8 @@ public class MmrBalanceRepository implements Repository {
                     second_player_uuid,
                     created,
                     updated,
-                    first_player_balance,
-                    second_player_balance
-                ) VALUES (?, ?, ?, ?, ?, ?);
+                    balance
+                ) VALUES (?, ?, ?, ?, ?);
                 """;
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -55,8 +53,7 @@ public class MmrBalanceRepository implements Repository {
             stmt.setString(2, mmrBalanceEntity.secondPlayerUUID().toString());
             stmt.setString(3, today.toString());
             stmt.setString(4, today.toString());
-            stmt.setInt(5, mmrBalanceEntity.balancePlayer1());
-            stmt.setInt(6, mmrBalanceEntity.balancePlayer2());
+            stmt.setInt(5, mmrBalanceEntity.balance());
             Logger.getInstance().info(stmt.toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -87,8 +84,7 @@ public class MmrBalanceRepository implements Repository {
                     .secondPlayerUUID(UUID.fromString(rs.getString(2)))
                     .created(rs.getDate(3))
                     .updated(rs.getDate(4))
-                    .balancePlayer1(rs.getInt(5))
-                    .balancePlayer2(rs.getInt(5))
+                    .balance(rs.getInt(5))
                     .build();
         } catch (SQLException e) {
             Logger.getInstance().error(e.getMessage());
@@ -101,8 +97,7 @@ public class MmrBalanceRepository implements Repository {
         String sql = """
                 UPDATE MmrBalance SET
                     updated = ?,
-                    first_player_balance = ?,
-                    second_player_balance = ?
+                    balance = ?
                 WHERE
                     first_player_uuid = ? AND
                     second_player_uuid = ?
@@ -111,10 +106,9 @@ public class MmrBalanceRepository implements Repository {
             PreparedStatement stmt = connection.prepareStatement(sql);
             LocalDateTime today = LocalDateTime.now();
             stmt.setString(1, today.toString());
-            stmt.setInt(2, mmrBalanceEntity.balancePlayer1());
-            stmt.setInt(3, mmrBalanceEntity.balancePlayer2());
-            stmt.setString(4, mmrBalanceEntity.firstPlayerUUID().toString());
-            stmt.setString(5, mmrBalanceEntity.secondPlayerUUID().toString());
+            stmt.setInt(2, mmrBalanceEntity.balance());
+            stmt.setString(3, mmrBalanceEntity.firstPlayerUUID().toString());
+            stmt.setString(4, mmrBalanceEntity.secondPlayerUUID().toString());
             Logger.getInstance().info(stmt.toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
