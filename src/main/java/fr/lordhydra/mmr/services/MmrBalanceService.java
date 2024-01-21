@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.UUID;
 
 public class MmrBalanceService {
 
@@ -31,9 +32,15 @@ public class MmrBalanceService {
         return mmrBalanceEntity;
     }
 
-    public BigDecimal getMmrBalanceRateModifier(MmrBalanceEntity mmrBalanceEntity) {
+    public BigDecimal getMmrBalanceRateModifier(MmrBalanceEntity mmrBalanceEntity, UUID killerUUID) {
+        //Si la balance est négative, alors c'est le deuxième joueur qui a le plus kill le premier joueur
+        //Sinon c'est le premier qui a kill le plus le deuxième
+        if (killerUUID.equals(mmrBalanceEntity.firstPlayerUUID()) && mmrBalanceEntity.balance() < 0 ||
+                killerUUID.equals(mmrBalanceEntity.secondPlayerUUID()) && mmrBalanceEntity.balance() > 0
+        ) {
+            return BigDecimal.ONE;
+        }
         int balance = Math.abs(mmrBalanceEntity.balance());
-
         if (balance > Config.BALANCE_SIZE ) {
             return BigDecimal.ZERO;
         }
