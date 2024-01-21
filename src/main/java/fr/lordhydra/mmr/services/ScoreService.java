@@ -12,8 +12,8 @@ import java.math.RoundingMode;
 
 public class ScoreService {
 
-    public void applyMmrToPlayers(Player killer, Player killed, BigDecimal mmrBalanceValue) {
-        if (mmrBalanceValue.equals(BigDecimal.ZERO)) return;
+    public void applyMmrToPlayers(Player killer, Player killed, BigDecimal mmrBalanceRateModifier) {
+        if (mmrBalanceRateModifier.equals(BigDecimal.ZERO)) return;
         BigDecimal killerMmr = getPlayerMmr(killer); //P1
         BigDecimal killedMmr = getPlayerMmr(killed); //P2
 
@@ -23,11 +23,11 @@ public class ScoreService {
 
         BigDecimal gainForKiller = killedMmr
                 .multiply(onKillRate)
-                .multiply(mmrBalanceValue)
+                .multiply(mmrBalanceRateModifier)
                 .round(new MathContext(3, RoundingMode.HALF_UP)); // P2 * A
         BigDecimal loseForKilled = killedMmr
                 .multiply(onDeathRate)
-                .multiply(mmrBalanceValue)
+                .multiply(mmrBalanceRateModifier)
                 .round(new MathContext(3, RoundingMode.HALF_UP)); // P2 * B
 
         BigDecimal killerNextMmr = killerMmr.add(gainForKiller); // P1 + P2 * A
