@@ -9,19 +9,17 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 import java.util.UUID;
 
+@Getter
 @Builder
 @ToString
 @Accessors(fluent = true)
 public class MmrBalanceEntity {
 
-    @Getter
     private UUID firstPlayerUUID, secondPlayerUUID;
 
-    @Getter
     private Date created, updated;
 
-    @Getter
     @Setter
-    private int balancePlayer1, balancePlayer2;
+    private int balance;
 
 }

@@ -20,9 +20,14 @@ public class PlayerDeathListener implements Listener {
         if (killer != null) {
             MmrBalanceService mmrBalanceService = new MmrBalanceService();
             MmrBalanceEntity mmrBalanceEntity = mmrBalanceService.getMmrBalance(killer, killed);
-            BigDecimal mmrBalanceValue = mmrBalanceService.getMmrBalanceValue(mmrBalanceEntity);
-            new ScoreService().applyMmrToPlayers(killer, killed, mmrBalanceValue);
-            mmrBalanceService.updateBalance(mmrBalanceEntity, killer);
+            BigDecimal mmrBalanceRateModifier = mmrBalanceService.getMmrBalanceRateModifier(
+                    mmrBalanceEntity,
+                    killer.getUniqueId()
+            );
+            if (!mmrBalanceRateModifier.equals(BigDecimal.ZERO)){
+                new ScoreService().applyMmrToPlayers(killer, killed, mmrBalanceRateModifier);
+                mmrBalanceService.updateBalance(mmrBalanceEntity, killer);
+            }
         }
     }
 }

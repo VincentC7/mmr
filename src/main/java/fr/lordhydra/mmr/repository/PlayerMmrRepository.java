@@ -85,7 +85,6 @@ public class PlayerMmrRepository implements Repository{
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             LocalDateTime today = LocalDateTime.now();
-            Logger.getInstance().info(today.toString());
             stmt.setString(1, playerMmrEntity.playerUUID().toString());
             stmt.setString(2, playerMmrEntity.playerName());
             stmt.setString(3, today.toString());
