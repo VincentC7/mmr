@@ -9,20 +9,21 @@ import org.bukkit.entity.Player;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 public class PlayerMmrRepository implements Repository{
 
+    private static final String TABLE_NAME = "player_mmr";
+
     @Override
     public void createTable() {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                CREATE TABLE IF NOT EXISTS PlayerMmr(
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                """
+                (
                     id INT(10) not null auto_increment,
-                    playerUUID varchar(36) NOT NULL,
-                    playerName varchar(36) NOT NULL,
+                    player_uuid varchar(36) NOT NULL,
+                    player_name varchar(36) NOT NULL,
                     created DATETIME NOT NULL,
                     updated DATETIME NOT NULL,
                     mmr DECIMAL(8,2) NOT NULL,
@@ -38,20 +39,12 @@ public class PlayerMmrRepository implements Repository{
     }
 
     public PlayerMmrEntity findByPlayer(Player player) {
-        String sql = """
-                SELECT *
-                FROM PlayerMmr
-                WHERE playerUUID = ?
-                """;
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE player_uuid = ?;";
         return findByField(sql, String.valueOf(player.getUniqueId()));
     }
 
     public PlayerMmrEntity findByPlayerName(String playerName) {
-        String sql = """
-                SELECT *
-                FROM PlayerMmr
-                WHERE playerName = ?
-                """;
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE player_name = ?;";
         return findByField(sql, playerName);
     }
 
@@ -79,9 +72,8 @@ public class PlayerMmrRepository implements Repository{
 
     public void insertPlayerMmr(PlayerMmrEntity playerMmrEntity) {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                INSERT INTO PlayerMmr(playerUUID, playerName, created, updated, mmr) VALUES (?, ?, ?, ?, ?);
-                """;
+        String sql =
+                "INSERT INTO "+ TABLE_NAME +"(player_uuid, player_name, created, updated, mmr) VALUES (?, ?, ?, ?, ?);";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             LocalDateTime today = LocalDateTime.now();
@@ -99,11 +91,7 @@ public class PlayerMmrRepository implements Repository{
 
     public boolean updatePlayerMmr(PlayerMmrEntity playerMmrEntity) {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                 Update PlayerMmr
-                    SET mmr = ?, updated = ?
-                    WHERE playerUUID = ?;
-                """;
+        String sql = "Update "+ TABLE_NAME +" SET mmr = ?, updated = ? WHERE player_uuid = ?;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setBigDecimal(1, playerMmrEntity.mmr());
@@ -120,9 +108,7 @@ public class PlayerMmrRepository implements Repository{
 
     public ArrayList<PlayerMmrEntity> getPlayersMmrs(int page) {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                    SELECT * FROM PlayerMmr order by mmr desc LIMIT ? OFFSET ?;
-                """;
+        String sql = "SELECT * FROM "+TABLE_NAME+" order by mmr desc LIMIT ? OFFSET ?;";
         ArrayList<PlayerMmrEntity> playerMmrEntities = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -132,8 +118,8 @@ public class PlayerMmrRepository implements Repository{
             Logger.getInstance().info(stmt.toString());
             while (rs.next()) {
                 PlayerMmrEntity playerMmrEntity = PlayerMmrEntity.builder()
-                        .playerUUID(UUID.fromString(rs.getString("playerUUID")))
-                        .playerName(rs.getString("playerName"))
+                        .playerUUID(UUID.fromString(rs.getString("player_uuid")))
+                        .playerName(rs.getString("player_name"))
                         .created(rs.getDate("created"))
                         .updated(rs.getDate("updated"))
                         .mmr(rs.getBigDecimal("mmr"))
@@ -148,9 +134,7 @@ public class PlayerMmrRepository implements Repository{
 
     public int countPlayerMmr() {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                    SELECT count(*) as count FROM PlayerMmr;
-                """;
+        String sql = "SELECT count(*) as count FROM "+ TABLE_NAME +";";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
