@@ -14,11 +14,14 @@ import java.util.UUID;
 
 public class MmrBalanceRepository implements Repository {
 
+    private static final String TABLE_NAME = "mmr_balance";
+
     @Override
     public void createTable() {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                CREATE TABLE IF NOT EXISTS MmrBalance(
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                """
+                (
                     first_player_uuid varchar(36) NOT NULL,
                     second_player_uuid varchar(36) NOT NULL,
                     created DATETIME NOT NULL,
@@ -37,8 +40,9 @@ public class MmrBalanceRepository implements Repository {
 
     public void insert(MmrBalanceEntity mmrBalanceEntity) {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                INSERT INTO MmrBalance(
+        String sql = "INSERT INTO " + TABLE_NAME +
+                """
+                (
                     first_player_uuid,
                     second_player_uuid,
                     created,
@@ -63,12 +67,9 @@ public class MmrBalanceRepository implements Repository {
 
     public MmrBalanceEntity findByPlayers(Player firstPlayer, Player secondPlayer) {
         Connection connection = StorageService.getInstance().getConnection();
-        String request = """
-                SELECT *
-                FROM MmrBalance
-                WHERE (first_player_uuid = ? AND second_player_uuid = ?) OR
-                    (first_player_uuid = ? AND second_player_uuid = ?)
-                """;
+        String request = "SELECT * FROM " + TABLE_NAME +
+                " WHERE (first_player_uuid = ? AND second_player_uuid = ?) " +
+                "OR (first_player_uuid = ? AND second_player_uuid = ?) ";
         try {
             PreparedStatement stmt = connection.prepareStatement(request);
             stmt.setString(1, firstPlayer.getUniqueId().toString());
@@ -94,14 +95,9 @@ public class MmrBalanceRepository implements Repository {
 
     public void update(MmrBalanceEntity mmrBalanceEntity) {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = """
-                UPDATE MmrBalance SET
-                    updated = ?,
-                    balance = ?
-                WHERE
-                    first_player_uuid = ? AND
-                    second_player_uuid = ?
-                """;
+        String sql = "UPDATE " + TABLE_NAME +
+                     " SET updated = ?, balance = ? " +
+                     "WHERE first_player_uuid = ? AND second_player_uuid = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             LocalDateTime today = LocalDateTime.now();
