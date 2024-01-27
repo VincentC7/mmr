@@ -1,4 +1,4 @@
 package fr.lordhydra.mmr.error;
 
-public class PlayerMmrAlreadyDisable extends Exception {
+public class PlayerMmrAlreadyDisabled extends Exception {
 }

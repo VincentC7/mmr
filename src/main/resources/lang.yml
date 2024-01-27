@@ -13,7 +13,9 @@ commands:
       nextPageMessage: "Tapez {command} pour aller à la page suivante"
     activate:
       playerMmrAlreadyActive: "Tu est déjà actif dans le système de MMR ;)"
-      playerMmrActivateSuccess: "Tu as activé l'évolution de ton MMR avec succes, attention à ne pas trop en perdre ;)"
+      playerMmrEnableSuccess: "Tu as activé l'évolution de ton MMR avec succes, attention à ne pas trop en perdre ;)"
+      playerMmrDisableSuccess: "Tu as bloqué l'évolution de ton MMR, tu ne peux plus en gagner ni en perdre"
+      playerMmrAlreadyDisabled: "Ton MMR est déjà bloqué, fais '/mmr on' pour l'activer"
   admin:
     invalidMmrFormat: "Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50"
     add:

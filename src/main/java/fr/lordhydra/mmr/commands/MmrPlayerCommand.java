@@ -4,12 +4,12 @@ import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
+import fr.lordhydra.mmr.error.PlayerMmrAlreadyDisabled;
 import fr.lordhydra.mmr.error.Result;
 import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.error.PlayerMmrAlreadyActive;
 import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;
-import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -26,6 +26,7 @@ public class MmrPlayerCommand extends AbstractCommand {
             case "rank" -> displayPlayerMMR(player, args);
             case "top" -> displayTopPlayerMMR(player, args);
             case "on" -> enablePlayerMmr(player, args);
+            case "off" -> disablePlayerMmr(player, args);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -129,7 +130,20 @@ public class MmrPlayerCommand extends AbstractCommand {
         } catch (PlayerMmrAlreadyActive e) {
             return Result.error(Lang.playerMmrAlreadyActive);
         }
-        return Result.ok(Lang.playerMmrActivateSuccess);
+        return Result.ok(Lang.playerMmrEnableSuccess);
     }
-    
+
+    private Result disablePlayerMmr(Player player, String[] args) {
+        if (args.length != 0) {
+            return Result.error(Lang.tooManyArgument);
+        }
+        MmrStatusService mmrStatusService = new MmrStatusService();
+        try {
+            mmrStatusService.disablePLayerMmr(player);
+        } catch (PlayerMmrAlreadyDisabled e) {
+            return Result.error(Lang.playerMmrAlreadyDisabled);
+        }
+        return Result.ok(Lang.playerMmrDisableSuccess);
+    }
+
 }

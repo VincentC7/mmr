@@ -16,7 +16,7 @@ public class Lang {
     //Top
     public static String invalidTopCommand, topNextPageMessage;
     //On
-    public static String playerMmrAlreadyActive, playerMmrActivateSuccess;
+    public static String playerMmrAlreadyActive, playerMmrEnableSuccess, playerMmrDisableSuccess, playerMmrAlreadyDisabled;
 
     // ------- Admin commands -------
     public static String invalidMmrFormat;
@@ -62,6 +62,8 @@ public class Lang {
         topNextPageMessage = configuration.getString("commands.player.top.nextPageMessage");
 
         playerMmrAlreadyActive = configuration.getString("commands.player.activate.playerMmrAlreadyActive");
-        playerMmrActivateSuccess = configuration.getString("commands.player.activate.playerMmrActivateSuccess");
+        playerMmrEnableSuccess = configuration.getString("commands.player.activate.playerMmrEnableSuccess");
+        playerMmrDisableSuccess = configuration.getString("commands.player.activate.playerMmrDisableSuccess");
+        playerMmrAlreadyDisabled = configuration.getString("commands.player.activate.playerMmrAlreadyDisabled");
     }
 }
