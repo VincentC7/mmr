@@ -3,6 +3,7 @@ commands:
     unknownCommand: "Commande inconnue"
     cantBeExecuteByTerminal: "Cette commande doit être faite par un joueur"
     playerNotFound: "Le joueur n'a pas été trouvé"
+    tooManyArgument: "Il y a trop d'argument dans la commande"
   player:
     rank:
       currentMmrMessage: "Actuellement, tu as un MMR de : {mmr}"
@@ -10,6 +11,9 @@ commands:
     top:
       invalidCommand: "La commande n'est pas bonne. Voici un exemple de commande valide '/mmr top 1' ou /mmr rank 5"
       nextPageMessage: "Tapez {command} pour aller à la page suivante"
+    activate:
+      playerMmrAlreadyActive: "Tu est déjà actif dans le système de MMR ;)"
+      playerMmrActivateSuccess: "Tu as activé l'évolution de ton MMR avec succes, attention à ne pas trop en perdre ;)"
   admin:
     invalidMmrFormat: "Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50"
     add:

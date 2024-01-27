@@ -30,6 +30,10 @@ public class PlayerMmrEntity {
     @Setter
     private BigDecimal mmr;
 
+    @Setter
+    @Getter
+    private boolean isActive;
+
     public void addMmr(BigDecimal mmrToAdd) {
         mmr = mmr.add(mmrToAdd);
     }

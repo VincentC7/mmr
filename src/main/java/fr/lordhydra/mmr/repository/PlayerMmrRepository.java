@@ -27,6 +27,7 @@ public class PlayerMmrRepository implements Repository{
                     created DATETIME NOT NULL,
                     updated DATETIME NOT NULL,
                     mmr DECIMAL(8,2) NOT NULL,
+                    is_active BOOLEAN DEFAULT true,
                     PRIMARY KEY(id)
                 );
                 """;
@@ -56,12 +57,13 @@ public class PlayerMmrRepository implements Repository{
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return PlayerMmrEntity.builder()
-                        .id(rs.getInt(1))
-                        .playerUUID(UUID.fromString(rs.getString(2)))
-                        .playerName(rs.getString(3))
-                        .created(rs.getDate(4))
-                        .updated(rs.getDate(5))
-                        .mmr(rs.getBigDecimal(6))
+                        .id(rs.getInt("id"))
+                        .playerUUID(UUID.fromString(rs.getString("player_uuid")))
+                        .playerName(rs.getString("player_name"))
+                        .created(rs.getDate("created"))
+                        .updated(rs.getDate("updated"))
+                        .mmr(rs.getBigDecimal("mmr"))
+                        .isActive(rs.getBoolean("is_active"))
                         .build();
             }
         } catch (SQLException e) {
@@ -91,12 +93,13 @@ public class PlayerMmrRepository implements Repository{
 
     public boolean updatePlayerMmr(PlayerMmrEntity playerMmrEntity) {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = "Update "+ TABLE_NAME +" SET mmr = ?, updated = ? WHERE player_uuid = ?;";
+        String sql = "Update "+ TABLE_NAME +" SET mmr = ?, updated = ?, is_active = ? WHERE player_uuid = ?;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setBigDecimal(1, playerMmrEntity.mmr());
             stmt.setString(2, LocalDateTime.now().toString());
-            stmt.setString(3, playerMmrEntity.playerUUID().toString());
+            stmt.setBoolean(3, playerMmrEntity.isActive());
+            stmt.setString(4, playerMmrEntity.playerUUID().toString());
             Logger.getInstance().info(stmt.toString());
             stmt.executeUpdate();
             return true;
@@ -123,6 +126,7 @@ public class PlayerMmrRepository implements Repository{
                         .created(rs.getDate("created"))
                         .updated(rs.getDate("updated"))
                         .mmr(rs.getBigDecimal("mmr"))
+                        .isActive(rs.getBoolean("is_active"))
                         .build();
                 playerMmrEntities.add(playerMmrEntity);
             }

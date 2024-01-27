@@ -8,13 +8,15 @@ public class Lang {
     //================= Commands ================= //
 
     //Default
-    public static String unknownCommand, cantBeExecuteByTerminal, playerNotFound;
+    public static String unknownCommand, cantBeExecuteByTerminal, playerNotFound, tooManyArgument;
 
     // ------- Player command -------
     //Rank
     public static String currentPlayerMmrMessage, otherPLayerMmrMessage;
     //Top
     public static String invalidTopCommand, topNextPageMessage;
+    //On
+    public static String playerMmrAlreadyActive, playerMmrActivateSuccess;
 
     // ------- Admin commands -------
     public static String invalidMmrFormat;
@@ -32,9 +34,11 @@ public class Lang {
     public static void load() {
         FileConfiguration configuration = FileService.getInstance()
                 .getFile("lang").getConfig();
+
         unknownCommand = configuration.getString("commands.default.unknownCommand");
         cantBeExecuteByTerminal = configuration.getString("commands.default.cantBeExecuteByTerminal");
         playerNotFound = configuration.getString("commands.default.playerNotFound");
+        tooManyArgument = configuration.getString("commands.default.tooManyArgument");
 
         invalidMmrFormat = configuration.getString("commands.admin.invalidMmrFormat");
 
@@ -56,5 +60,8 @@ public class Lang {
 
         invalidTopCommand = configuration.getString("commands.player.top.invalidCommand");
         topNextPageMessage = configuration.getString("commands.player.top.nextPageMessage");
+
+        playerMmrAlreadyActive = configuration.getString("commands.player.activate.playerMmrAlreadyActive");
+        playerMmrActivateSuccess = configuration.getString("commands.player.activate.playerMmrActivateSuccess");
     }
 }

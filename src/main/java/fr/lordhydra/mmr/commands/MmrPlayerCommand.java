@@ -5,8 +5,11 @@ import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
 import fr.lordhydra.mmr.error.Result;
+import fr.lordhydra.mmr.services.MmrStatusService;
+import fr.lordhydra.mmr.error.PlayerMmrAlreadyActive;
 import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;
+import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,6 +25,7 @@ public class MmrPlayerCommand extends AbstractCommand {
         return switch (action) {
             case "rank" -> displayPlayerMMR(player, args);
             case "top" -> displayTopPlayerMMR(player, args);
+            case "on" -> enablePlayerMmr(player, args);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -112,6 +116,20 @@ public class MmrPlayerCommand extends AbstractCommand {
             ));
         }
         return stringBuilder.toString();
+    }
+
+
+    private Result enablePlayerMmr(Player player, String[] args) {
+        if (args.length != 0) {
+            return Result.error(Lang.tooManyArgument);
+        }
+        MmrStatusService mmrStatusService = new MmrStatusService();
+        try {
+            mmrStatusService.enablePlayerMmr(player);
+        } catch (PlayerMmrAlreadyActive e) {
+            return Result.error(Lang.playerMmrAlreadyActive);
+        }
+        return Result.ok(Lang.playerMmrActivateSuccess);
     }
     
 }
