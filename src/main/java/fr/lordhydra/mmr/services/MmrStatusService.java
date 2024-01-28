@@ -4,11 +4,13 @@ import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMmrAlreadyActive;
 import fr.lordhydra.mmr.error.PlayerMmrAlreadyDisabled;
+import fr.lordhydra.mmr.error.StatusUpdateCouldown;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class MmrStatusService {
 
@@ -16,22 +18,22 @@ public class MmrStatusService {
      * Enable the player to win or lose MMRs
      * @param player target
      */
-    public void enablePlayerMmr(Player player) throws PlayerMmrAlreadyActive {
+    public void enablePlayerMmr(Player player) throws PlayerMmrAlreadyActive, StatusUpdateCouldown {
         PlayerMmrEntity playerMmrEntity = getPlayerMmr(player);
-        if (playerMmrEntity.isActive()) {
-            throw new PlayerMmrAlreadyActive();
-        }
+        if (playerMmrEntity.isActive()) throw new PlayerMmrAlreadyActive();
+        long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
+        if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
         playerMmrEntity.isActive(true);
         playerMmrEntity.statusUpdated(LocalDateTime.now());
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
 
-    public void disablePLayerMmr(Player player) throws PlayerMmrAlreadyDisabled {
+    public void disablePLayerMmr(Player player) throws PlayerMmrAlreadyDisabled, StatusUpdateCouldown {
         PlayerMmrEntity playerMmrEntity = getPlayerMmr(player);
-        if (!playerMmrEntity.isActive()) {
-            throw new PlayerMmrAlreadyDisabled();
-        }
+        if (!playerMmrEntity.isActive()) throw new PlayerMmrAlreadyDisabled();
+        long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
+        if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
         playerMmrEntity.isActive(false);
         playerMmrEntity.statusUpdated(LocalDateTime.now());
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
@@ -51,5 +53,15 @@ public class MmrStatusService {
             playerMmrRepository.insertPlayerMmr(playerMmrEntity);
         }
         return playerMmrEntity;
+    }
+
+    /**
+     * Calculate if player is in cooldown and return the timer left
+     * @param timeFromLastStatusUpdate time from last update
+     * @return time left if he is on CD or 0 if he isn't
+     */
+    private long calculatePLayerCooldown(LocalDateTime timeFromLastStatusUpdate) {
+        LocalDateTime tempDateTime = LocalDateTime.from(timeFromLastStatusUpdate);
+        return Config.STATUS_UPDATE_COOLDOWN - tempDateTime.until(LocalDateTime.now(), ChronoUnit.SECONDS);
     }
 }

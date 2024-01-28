@@ -5,6 +5,7 @@ commands:
     playerNotFound: "Le joueur n'a pas été trouvé"
     tooManyArgument: "Il y a trop d'argument dans la commande"
   player:
+    playerChangeStatusOnCooldown: "Tu ne peux pas changer activé ou désactiver ton MMR car le délai d'attente n'est pas encore passé. Tu pourras le refaire dans {cooldown}"
     rank:
       currentMmrMessage: "Actuellement, tu as un MMR de : {mmr}"
       playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr}"

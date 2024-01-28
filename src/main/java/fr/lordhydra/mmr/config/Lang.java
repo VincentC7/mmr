@@ -15,8 +15,11 @@ public class Lang {
     public static String currentPlayerMmrMessage, otherPLayerMmrMessage;
     //Top
     public static String invalidTopCommand, topNextPageMessage;
-    //On
-    public static String playerMmrAlreadyActive, playerMmrEnableSuccess, playerMmrDisableSuccess, playerMmrAlreadyDisabled;
+    //On (enable mmr for players)
+    public static String playerMmrAlreadyActive, playerMmrEnableSuccess;
+    //Off (disable mmr for players)
+    public static String playerMmrDisableSuccess, playerMmrAlreadyDisabled;
+    public static String playerChangeStatusOnCooldown;
 
     // ------- Admin commands -------
     public static String invalidMmrFormat;
@@ -65,5 +68,6 @@ public class Lang {
         playerMmrEnableSuccess = configuration.getString("commands.player.activate.playerMmrEnableSuccess");
         playerMmrDisableSuccess = configuration.getString("commands.player.activate.playerMmrDisableSuccess");
         playerMmrAlreadyDisabled = configuration.getString("commands.player.activate.playerMmrAlreadyDisabled");
+        playerChangeStatusOnCooldown = configuration.getString("commands.player.playerChangeStatusOnCooldown");
     }
 }
