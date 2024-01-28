@@ -24,7 +24,8 @@ public class PlayerMmrEntity {
     private String playerName;
 
     @Getter
-    private Date created, updated;
+    @Setter
+    private Date created, mmrUpdated;
 
     @Getter
     @Setter

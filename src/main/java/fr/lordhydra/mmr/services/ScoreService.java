@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Date;
 
 public class ScoreService {
 
@@ -81,6 +82,7 @@ public class ScoreService {
             playerMmrRepository.insertPlayerMmr(playerMmrEntity);
         } else {
             playerMmrEntity.mmr(newMmr);
+            playerMmrEntity.mmrUpdated(new Date());
             playerMmrRepository.updatePlayerMmr(playerMmrEntity);
         }
     }
@@ -92,6 +94,7 @@ public class ScoreService {
             throw new PlayerMMRNotFoundException();
         }
         playerMmrEntity.mmr(BigDecimal.valueOf(Config.DEFAULT_MMR));
+        playerMmrEntity.mmrUpdated(new Date());
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
 }

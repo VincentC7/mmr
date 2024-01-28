@@ -7,6 +7,7 @@ import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class PlayerMmrRepository implements Repository{
                     player_uuid varchar(36) NOT NULL,
                     player_name varchar(36) NOT NULL,
                     created DATETIME NOT NULL,
-                    updated DATETIME NOT NULL,
+                    mmr_updated DATETIME NOT NULL,
                     mmr DECIMAL(8,2) NOT NULL,
                     is_active BOOLEAN DEFAULT true,
                     PRIMARY KEY(id)
@@ -61,7 +62,7 @@ public class PlayerMmrRepository implements Repository{
                         .playerUUID(UUID.fromString(rs.getString("player_uuid")))
                         .playerName(rs.getString("player_name"))
                         .created(rs.getDate("created"))
-                        .updated(rs.getDate("updated"))
+                        .mmrUpdated(rs.getDate("mmr_updated"))
                         .mmr(rs.getBigDecimal("mmr"))
                         .isActive(rs.getBoolean("is_active"))
                         .build();
@@ -75,7 +76,7 @@ public class PlayerMmrRepository implements Repository{
     public void insertPlayerMmr(PlayerMmrEntity playerMmrEntity) {
         Connection connection = StorageService.getInstance().getConnection();
         String sql =
-                "INSERT INTO "+ TABLE_NAME +"(player_uuid, player_name, created, updated, mmr) VALUES (?, ?, ?, ?, ?);";
+                "INSERT INTO "+ TABLE_NAME +"(player_uuid, player_name, created, mmr_updated, mmr) VALUES (?, ?, ?, ?, ?);";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             LocalDateTime today = LocalDateTime.now();
@@ -93,11 +94,12 @@ public class PlayerMmrRepository implements Repository{
 
     public boolean updatePlayerMmr(PlayerMmrEntity playerMmrEntity) {
         Connection connection = StorageService.getInstance().getConnection();
-        String sql = "Update "+ TABLE_NAME +" SET mmr = ?, updated = ?, is_active = ? WHERE player_uuid = ?;";
+        SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd* hh:mm:ss");
+        String sql = "Update "+ TABLE_NAME +" SET mmr = ?, mmr_updated = ?, is_active = ? WHERE player_uuid = ?;";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setBigDecimal(1, playerMmrEntity.mmr());
-            stmt.setString(2, LocalDateTime.now().toString());
+            stmt.setString(2, sdf.format(playerMmrEntity.mmrUpdated()));
             stmt.setBoolean(3, playerMmrEntity.isActive());
             stmt.setString(4, playerMmrEntity.playerUUID().toString());
             Logger.getInstance().info(stmt.toString());
@@ -124,7 +126,7 @@ public class PlayerMmrRepository implements Repository{
                         .playerUUID(UUID.fromString(rs.getString("player_uuid")))
                         .playerName(rs.getString("player_name"))
                         .created(rs.getDate("created"))
-                        .updated(rs.getDate("updated"))
+                        .mmrUpdated(rs.getDate("mmr_updated"))
                         .mmr(rs.getBigDecimal("mmr"))
                         .isActive(rs.getBoolean("is_active"))
                         .build();
