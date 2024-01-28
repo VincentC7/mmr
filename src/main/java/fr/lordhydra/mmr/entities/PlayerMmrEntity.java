@@ -7,7 +7,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -25,7 +25,7 @@ public class PlayerMmrEntity {
 
     @Getter
     @Setter
-    private Date created, mmrUpdated;
+    private LocalDateTime created, mmrUpdated, statusUpdated;
 
     @Getter
     @Setter

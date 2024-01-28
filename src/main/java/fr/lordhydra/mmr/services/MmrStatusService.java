@@ -8,6 +8,7 @@ import fr.lordhydra.mmr.repository.PlayerMmrRepository;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class MmrStatusService {
 
@@ -21,6 +22,7 @@ public class MmrStatusService {
             throw new PlayerMmrAlreadyActive();
         }
         playerMmrEntity.isActive(true);
+        playerMmrEntity.statusUpdated(LocalDateTime.now());
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
@@ -31,6 +33,7 @@ public class MmrStatusService {
             throw new PlayerMmrAlreadyDisabled();
         }
         playerMmrEntity.isActive(false);
+        playerMmrEntity.statusUpdated(LocalDateTime.now());
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
