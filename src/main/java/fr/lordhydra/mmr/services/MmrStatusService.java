@@ -19,30 +19,16 @@ import java.time.temporal.ChronoUnit;
 public class MmrStatusService {
 
     /**
-     * Enable the player to win or lose MMRs
+     * Enable or disable MMR
      * @param player target
      */
-    public void enablePlayerMmr(Player player) throws PlayerMmrAlreadyActive, StatusUpdateCouldown, playerHasAlreadyTimerStarted {
+    public void changePlayerMmrStatus(Player player, boolean disable) throws PlayerMmrAlreadyDisabled, StatusUpdateCouldown, playerHasAlreadyTimerStarted, PlayerMmrAlreadyActive {
         PlayerMmrEntity playerMmrEntity = getPlayerMmr(player);
-        if (playerMmrEntity.isActive()) throw new PlayerMmrAlreadyActive();
+        if (!playerMmrEntity.isActive() && disable) throw new PlayerMmrAlreadyDisabled();
+        if (playerMmrEntity.isActive() && !disable) throw new PlayerMmrAlreadyActive();
         long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
         if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
-        playerMmrEntity.isActive(true);
-        ChangePlayerStatusTimer changePlayerStatusTimer = new ChangePlayerStatusTimer(
-                player,
-                playerMmrEntity,
-                Config.PLAYER_CHANGE_STATUS_TIMER
-        );
-        ChangeStatusTimerPool.addTimer(player.getUniqueId(), changePlayerStatusTimer);
-        changePlayerStatusTimer.runTaskTimer(MMR.getInstance(), 0, 20);
-    }
-
-    public void disablePLayerMmr(Player player) throws PlayerMmrAlreadyDisabled, StatusUpdateCouldown, playerHasAlreadyTimerStarted {
-        PlayerMmrEntity playerMmrEntity = getPlayerMmr(player);
-        if (!playerMmrEntity.isActive()) throw new PlayerMmrAlreadyDisabled();
-        long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
-        if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
-        playerMmrEntity.isActive(false);
+        playerMmrEntity.isActive(!disable);
         ChangePlayerStatusTimer changePlayerStatusTimer = new ChangePlayerStatusTimer(
                 player,
                 playerMmrEntity,

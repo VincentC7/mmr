@@ -3,7 +3,6 @@ package fr.lordhydra.mmr.services.changeStatusTimer;
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.services.MmrStatusService;
-import fr.lordhydra.mmr.utils.Logger;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.Player;

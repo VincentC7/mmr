@@ -23,8 +23,8 @@ public class MmrPlayerCommand extends AbstractCommand {
         return switch (action) {
             case "rank" -> displayPlayerMMR(player, args);
             case "top" -> displayTopPlayerMMR(player, args);
-            case "on" -> enablePlayerMmr(player, args);
-            case "off" -> disablePlayerMmr(player, args);
+            case "on" -> changePlayerMmrStatus(player, args, false);
+            case "off" -> changePlayerMmrStatus(player, args, true);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -117,14 +117,15 @@ public class MmrPlayerCommand extends AbstractCommand {
         return stringBuilder.toString();
     }
 
-
-    private Result enablePlayerMmr(Player player, String[] args) {
+    private Result changePlayerMmrStatus(Player player, String[] args, boolean disable) {
         if (args.length != 0) {
             return Result.error(Lang.tooManyArgument);
         }
         MmrStatusService mmrStatusService = new MmrStatusService();
         try {
-            mmrStatusService.enablePlayerMmr(player);
+            mmrStatusService.changePlayerMmrStatus(player, disable);
+        } catch (PlayerMmrAlreadyDisabled e) {
+            return Result.error(Lang.playerMmrAlreadyDisabled);
         } catch (PlayerMmrAlreadyActive e) {
             return Result.error(Lang.playerMmrAlreadyActive);
         } catch (playerHasAlreadyTimerStarted e) {
@@ -132,27 +133,8 @@ public class MmrPlayerCommand extends AbstractCommand {
         } catch (StatusUpdateCouldown e) {
             return Result.error(Lang.playerChangeStatusOnCooldown.replace("{cooldown}", e.formatTimerToString()));
         }
-        return Result.ok(Lang.playerMmrEnableSuccess.replace(
-                "{timer}",
-                Config.PLAYER_CHANGE_STATUS_TIMER/60 + "")
-        );
-    }
-
-    private Result disablePlayerMmr(Player player, String[] args) {
-        if (args.length != 0) {
-            return Result.error(Lang.tooManyArgument);
-        }
-        MmrStatusService mmrStatusService = new MmrStatusService();
-        try {
-            mmrStatusService.disablePLayerMmr(player);
-        } catch (PlayerMmrAlreadyDisabled e) {
-            return Result.error(Lang.playerMmrAlreadyDisabled);
-        } catch (playerHasAlreadyTimerStarted e) {
-            return Result.error(Lang.playerChangeStatusAlreadyStarted.replace("{timeLeft}", e.formatTimerToString()));
-        } catch (StatusUpdateCouldown e) {
-            return Result.error(Lang.playerChangeStatusOnCooldown.replace("{cooldown}", e.formatTimerToString()));
-        }
-        return Result.ok(Lang.playerMmrDisableSuccess.replace(
+        String successMessage = disable ? Lang.playerMmrDisableSuccess : Lang.playerMmrEnableSuccess;
+        return Result.ok(successMessage.replace(
                 "{timer}",
                 Config.PLAYER_CHANGE_STATUS_TIMER/60 + "")
         );
