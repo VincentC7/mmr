@@ -3,10 +3,11 @@ package fr.lordhydra.mmr.commands;
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
-import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
-import fr.lordhydra.mmr.error.Result;
+import fr.lordhydra.mmr.error.*;
+import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;
+import fr.lordhydra.mmr.error.Result;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,6 +23,8 @@ public class MmrPlayerCommand extends AbstractCommand {
         return switch (action) {
             case "rank" -> displayPlayerMMR(player, args);
             case "top" -> displayTopPlayerMMR(player, args);
+            case "on" -> changePlayerMmrStatus(player, args, false);
+            case "off" -> changePlayerMmrStatus(player, args, true);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -113,5 +116,28 @@ public class MmrPlayerCommand extends AbstractCommand {
         }
         return stringBuilder.toString();
     }
-    
+
+    private Result changePlayerMmrStatus(Player player, String[] args, boolean disable) {
+        if (args.length != 0) {
+            return Result.error(Lang.tooManyArgument);
+        }
+        MmrStatusService mmrStatusService = new MmrStatusService();
+        try {
+            mmrStatusService.changePlayerMmrStatus(player, disable);
+        } catch (PlayerMmrAlreadyDisabled e) {
+            return Result.error(Lang.playerMmrAlreadyDisabled);
+        } catch (PlayerMmrAlreadyActive e) {
+            return Result.error(Lang.playerMmrAlreadyActive);
+        } catch (playerHasAlreadyTimerStarted e) {
+            return Result.error(Lang.playerChangeStatusAlreadyStarted.replace("{timeLeft}", e.formatTimerToString()));
+        } catch (StatusUpdateCouldown e) {
+            return Result.error(Lang.playerChangeStatusOnCooldown.replace("{cooldown}", e.formatTimerToString()));
+        }
+        String successMessage = disable ? Lang.playerMmrDisableSuccess : Lang.playerMmrEnableSuccess;
+        return Result.ok(successMessage.replace(
+                "{timer}",
+                Config.PLAYER_CHANGE_STATUS_TIMER/60 + "")
+        );
+    }
+
 }

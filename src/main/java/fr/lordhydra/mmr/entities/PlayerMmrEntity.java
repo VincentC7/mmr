@@ -7,7 +7,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -24,11 +24,16 @@ public class PlayerMmrEntity {
     private String playerName;
 
     @Getter
-    private Date created, updated;
+    @Setter
+    private LocalDateTime created, mmrUpdated, statusUpdated;
 
     @Getter
     @Setter
     private BigDecimal mmr;
+
+    @Setter
+    @Getter
+    private boolean isActive;
 
     public void addMmr(BigDecimal mmrToAdd) {
         mmr = mmr.add(mmrToAdd);

@@ -4,11 +4,14 @@ import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
+import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class ScoreService {
 
@@ -47,6 +50,7 @@ public class ScoreService {
         if (playerMmrEntity == null) {
             return BigDecimal.valueOf(Config.DEFAULT_MMR);
         }
+        Logger.getInstance().info(playerMmrEntity.toString());
         return playerMmrEntity.mmr();
     }
 
@@ -81,6 +85,7 @@ public class ScoreService {
             playerMmrRepository.insertPlayerMmr(playerMmrEntity);
         } else {
             playerMmrEntity.mmr(newMmr);
+            playerMmrEntity.mmrUpdated(LocalDateTime.now());
             playerMmrRepository.updatePlayerMmr(playerMmrEntity);
         }
     }
@@ -92,6 +97,7 @@ public class ScoreService {
             throw new PlayerMMRNotFoundException();
         }
         playerMmrEntity.mmr(BigDecimal.valueOf(Config.DEFAULT_MMR));
+        playerMmrEntity.mmrUpdated(LocalDateTime.now());
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
 }

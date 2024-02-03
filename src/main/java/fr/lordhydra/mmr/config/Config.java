@@ -7,7 +7,7 @@ public class Config {
 
     public static Double ON_DEATH_RATE, ON_KILL_RATE;
 
-    public static int DEFAULT_MMR, TOP_MMR_PAGE_SIZE, BALANCE_SIZE;
+    public static int DEFAULT_MMR, TOP_MMR_PAGE_SIZE, BALANCE_SIZE, STATUS_UPDATE_COOLDOWN, PLAYER_CHANGE_STATUS_TIMER;
 
     public static void load() {
         FileConfiguration configuration = FileService.getInstance()
@@ -17,5 +17,7 @@ public class Config {
         DEFAULT_MMR = configuration.getInt("defaultMmr");
         TOP_MMR_PAGE_SIZE = configuration.getInt("topMmrPageSize");
         BALANCE_SIZE = configuration.getInt("balanceSize");
+        STATUS_UPDATE_COOLDOWN = configuration.getInt("statusUpdateCooldown");
+        PLAYER_CHANGE_STATUS_TIMER = configuration.getInt("playerChangeStatusTimer");
     }
 }
