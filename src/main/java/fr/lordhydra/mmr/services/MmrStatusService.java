@@ -1,6 +1,7 @@
 package fr.lordhydra.mmr.services;
 
-import fr.lordhydra.mmr.ChangePlayerStatusTimer;
+import fr.lordhydra.mmr.error.playerHasAlreadyTimerStarted;
+import fr.lordhydra.mmr.services.changeStatusTimer.ChangePlayerStatusTimer;
 import fr.lordhydra.mmr.MMR;
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
@@ -8,7 +9,7 @@ import fr.lordhydra.mmr.error.PlayerMmrAlreadyActive;
 import fr.lordhydra.mmr.error.PlayerMmrAlreadyDisabled;
 import fr.lordhydra.mmr.error.StatusUpdateCouldown;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
-import org.bukkit.Bukkit;
+import fr.lordhydra.mmr.services.changeStatusTimer.ChangeStatusTimerPool;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
@@ -21,29 +22,33 @@ public class MmrStatusService {
      * Enable the player to win or lose MMRs
      * @param player target
      */
-    public void enablePlayerMmr(Player player) throws PlayerMmrAlreadyActive, StatusUpdateCouldown {
+    public void enablePlayerMmr(Player player) throws PlayerMmrAlreadyActive, StatusUpdateCouldown, playerHasAlreadyTimerStarted {
         PlayerMmrEntity playerMmrEntity = getPlayerMmr(player);
         if (playerMmrEntity.isActive()) throw new PlayerMmrAlreadyActive();
         long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
         if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
         playerMmrEntity.isActive(true);
         ChangePlayerStatusTimer changePlayerStatusTimer = new ChangePlayerStatusTimer(
+                player,
                 playerMmrEntity,
                 Config.PLAYER_CHANGE_STATUS_TIMER
         );
+        ChangeStatusTimerPool.addTimer(player.getUniqueId(), changePlayerStatusTimer);
         changePlayerStatusTimer.runTaskTimer(MMR.getInstance(), 0, 20);
     }
 
-    public void disablePLayerMmr(Player player) throws PlayerMmrAlreadyDisabled, StatusUpdateCouldown {
+    public void disablePLayerMmr(Player player) throws PlayerMmrAlreadyDisabled, StatusUpdateCouldown, playerHasAlreadyTimerStarted {
         PlayerMmrEntity playerMmrEntity = getPlayerMmr(player);
         if (!playerMmrEntity.isActive()) throw new PlayerMmrAlreadyDisabled();
         long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
         if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
         playerMmrEntity.isActive(false);
         ChangePlayerStatusTimer changePlayerStatusTimer = new ChangePlayerStatusTimer(
+                player,
                 playerMmrEntity,
                 Config.PLAYER_CHANGE_STATUS_TIMER
         );
+        ChangeStatusTimerPool.addTimer(player.getUniqueId(), changePlayerStatusTimer);
         changePlayerStatusTimer.runTaskTimer(MMR.getInstance(), 0, 20);
     }
 
@@ -51,6 +56,7 @@ public class MmrStatusService {
         playerMmrEntity.statusUpdated(LocalDateTime.now());
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
+        ChangeStatusTimerPool.removeTimer(playerMmrEntity.playerUUID());
     }
 
     private PlayerMmrEntity getPlayerMmr(Player player) {

@@ -19,7 +19,9 @@ public class Lang {
     public static String playerMmrAlreadyActive, playerMmrEnableSuccess;
     //Off (disable mmr for players)
     public static String playerMmrDisableSuccess, playerMmrAlreadyDisabled;
-    public static String playerChangeStatusOnCooldown;
+    //Status
+    public static String playerChangeStatusOnCooldown, playerChangeStatusAlreadyStarted,
+            playerMmrIsNowActive, playerMmrIsNowDisable;
 
     // ------- Admin commands -------
     public static String invalidMmrFormat;
@@ -64,10 +66,15 @@ public class Lang {
         invalidTopCommand = configuration.getString("commands.player.top.invalidCommand");
         topNextPageMessage = configuration.getString("commands.player.top.nextPageMessage");
 
-        playerMmrAlreadyActive = configuration.getString("commands.player.activate.playerMmrAlreadyActive");
-        playerMmrEnableSuccess = configuration.getString("commands.player.activate.playerMmrEnableSuccess");
-        playerMmrDisableSuccess = configuration.getString("commands.player.activate.playerMmrDisableSuccess");
-        playerMmrAlreadyDisabled = configuration.getString("commands.player.activate.playerMmrAlreadyDisabled");
-        playerChangeStatusOnCooldown = configuration.getString("commands.player.playerChangeStatusOnCooldown");
+        playerMmrAlreadyActive = configuration.getString("commands.player.enable.playerMmrAlreadyActive");
+        playerMmrEnableSuccess = configuration.getString("commands.player.enable.playerMmrEnableSuccess");
+        playerMmrIsNowActive = configuration.getString("commands.player.status.playerMmrIsNowActive");
+
+        playerMmrDisableSuccess = configuration.getString("commands.player.disable.playerMmrDisableSuccess");
+        playerMmrAlreadyDisabled = configuration.getString("commands.player.disable.playerMmrAlreadyDisabled");
+        playerMmrIsNowDisable = configuration.getString("commands.player.status.playerMmrIsNowDisable");
+
+        playerChangeStatusOnCooldown = configuration.getString("commands.player.status.playerChangeStatusOnCooldown");
+        playerChangeStatusAlreadyStarted = configuration.getString("commands.player.status.playerChangeStatusAlreadyStarted");
     }
 }

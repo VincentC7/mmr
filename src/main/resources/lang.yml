@@ -5,17 +5,22 @@ commands:
     playerNotFound: "Le joueur n'a pas été trouvé"
     tooManyArgument: "Il y a trop d'argument dans la commande"
   player:
-    playerChangeStatusOnCooldown: "Tu ne peux pas changer activé ou désactiver ton MMR car le délai d'attente n'est pas encore passé. Tu pourras le refaire dans {cooldown}"
+    status:
+      playerChangeStatusOnCooldown: "Tu ne peux pas changer activé ou désactiver ton MMR car le délai d'attente n'est pas encore passé. Tu pourras le refaire dans {cooldown}"
+      playerChangeStatusAlreadyStarted: "Tu as déjà initié un changement de status, le changement sera effectif dans moins de {timeLeft}"
+      playerMmrIsNowActive: "Tu es à présent actif dans le classement MMR, tu peux gagner ou perdre du classement. Bonne chance !"
+      playerMmrIsNowDisable: "Tu es à présent sorti du classement MMR, tu ne peux ni perdre ni gagner de MMR"
     rank:
       currentMmrMessage: "Actuellement, tu as un MMR de : {mmr}"
       playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr}"
     top:
       invalidCommand: "La commande n'est pas bonne. Voici un exemple de commande valide '/mmr top 1' ou /mmr rank 5"
       nextPageMessage: "Tapez {command} pour aller à la page suivante"
-    activate:
+    enable:
       playerMmrAlreadyActive: "Tu est déjà actif dans le système de MMR ;)"
-      playerMmrEnableSuccess: "Tu as activé l'évolution de ton MMR avec succes, attention à ne pas trop en perdre ;)"
-      playerMmrDisableSuccess: "Tu as bloqué l'évolution de ton MMR, tu ne peux plus en gagner ni en perdre"
+      playerMmrEnableSuccess: "Tu as lancé l'activation du Mmr, ce sera actif dans {timer} minutes"
+    disable:
+      playerMmrDisableSuccess: "Tu as lancé la désactivation du Mmr, ce sera actif dans {timer} minutes"
       playerMmrAlreadyDisabled: "Ton MMR est déjà bloqué, fais '/mmr on' pour l'activer"
   admin:
     invalidMmrFormat: "Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50"

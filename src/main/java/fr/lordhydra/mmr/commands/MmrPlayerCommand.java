@@ -7,6 +7,7 @@ import fr.lordhydra.mmr.error.*;
 import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;
+import fr.lordhydra.mmr.error.Result;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -126,10 +127,15 @@ public class MmrPlayerCommand extends AbstractCommand {
             mmrStatusService.enablePlayerMmr(player);
         } catch (PlayerMmrAlreadyActive e) {
             return Result.error(Lang.playerMmrAlreadyActive);
+        } catch (playerHasAlreadyTimerStarted e) {
+            return Result.error(Lang.playerChangeStatusAlreadyStarted.replace("{timeLeft}", e.formatTimerToString()));
         } catch (StatusUpdateCouldown e) {
             return Result.error(Lang.playerChangeStatusOnCooldown.replace("{cooldown}", e.formatTimerToString()));
         }
-        return Result.ok(Lang.playerMmrEnableSuccess);
+        return Result.ok(Lang.playerMmrEnableSuccess.replace(
+                "{timer}",
+                Config.PLAYER_CHANGE_STATUS_TIMER/60 + "")
+        );
     }
 
     private Result disablePlayerMmr(Player player, String[] args) {
@@ -141,10 +147,15 @@ public class MmrPlayerCommand extends AbstractCommand {
             mmrStatusService.disablePLayerMmr(player);
         } catch (PlayerMmrAlreadyDisabled e) {
             return Result.error(Lang.playerMmrAlreadyDisabled);
+        } catch (playerHasAlreadyTimerStarted e) {
+            return Result.error(Lang.playerChangeStatusAlreadyStarted.replace("{timeLeft}", e.formatTimerToString()));
         } catch (StatusUpdateCouldown e) {
             return Result.error(Lang.playerChangeStatusOnCooldown.replace("{cooldown}", e.formatTimerToString()));
         }
-        return Result.ok(Lang.playerMmrDisableSuccess);
+        return Result.ok(Lang.playerMmrDisableSuccess.replace(
+                "{timer}",
+                Config.PLAYER_CHANGE_STATUS_TIMER/60 + "")
+        );
     }
 
 }
