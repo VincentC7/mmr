@@ -4,3 +4,4 @@ defaultMmr: 1000 #MMR de base
 topMmrPageSize: 10 #Nombre de joueurs affiché quand on fait /mmr top X
 balanceSize: 10 #Nombre de billes de chaque coté de la balance des joueurs
 statusUpdateCooldown: 10 #Temps en secondes entre chaque utilisation de /mmr on & off par un joueur
+playerChangeStatusTimer: 5 #Temps en secondes où le changement de status d'un joueur va s'appliquer réellement après avoir fait /mmr on & off

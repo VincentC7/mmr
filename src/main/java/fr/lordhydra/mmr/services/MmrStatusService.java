@@ -1,11 +1,14 @@
 package fr.lordhydra.mmr.services;
 
+import fr.lordhydra.mmr.ChangePlayerStatusTimer;
+import fr.lordhydra.mmr.MMR;
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMmrAlreadyActive;
 import fr.lordhydra.mmr.error.PlayerMmrAlreadyDisabled;
 import fr.lordhydra.mmr.error.StatusUpdateCouldown;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
@@ -24,9 +27,11 @@ public class MmrStatusService {
         long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
         if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
         playerMmrEntity.isActive(true);
-        playerMmrEntity.statusUpdated(LocalDateTime.now());
-        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
-        playerMmrRepository.updatePlayerMmr(playerMmrEntity);
+        ChangePlayerStatusTimer changePlayerStatusTimer = new ChangePlayerStatusTimer(
+                playerMmrEntity,
+                Config.PLAYER_CHANGE_STATUS_TIMER
+        );
+        changePlayerStatusTimer.runTaskTimer(MMR.getInstance(), 0, 20);
     }
 
     public void disablePLayerMmr(Player player) throws PlayerMmrAlreadyDisabled, StatusUpdateCouldown {
@@ -35,6 +40,14 @@ public class MmrStatusService {
         long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
         if (playerCooldown > 0) throw new StatusUpdateCouldown(playerCooldown);
         playerMmrEntity.isActive(false);
+        ChangePlayerStatusTimer changePlayerStatusTimer = new ChangePlayerStatusTimer(
+                playerMmrEntity,
+                Config.PLAYER_CHANGE_STATUS_TIMER
+        );
+        changePlayerStatusTimer.runTaskTimer(MMR.getInstance(), 0, 20);
+    }
+
+    public void changePlayerMmrActivity(PlayerMmrEntity playerMmrEntity) {
         playerMmrEntity.statusUpdated(LocalDateTime.now());
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
