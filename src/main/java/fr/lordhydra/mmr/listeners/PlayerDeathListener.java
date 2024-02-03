@@ -2,6 +2,7 @@ package fr.lordhydra.mmr.listeners;
 
 import fr.lordhydra.mmr.entities.MmrBalanceEntity;
 import fr.lordhydra.mmr.services.MmrBalanceService;
+import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.services.ScoreService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,10 @@ public class PlayerDeathListener implements Listener {
         Player killed = e.getEntity();
         Player killer = e.getEntity().getKiller();
         if (killer != null) {
+            MmrStatusService mmrStatusService = new MmrStatusService();
+            if (!mmrStatusService.checkPlayersStatusesValid(killer,killed)) {
+                return;
+            }
             MmrBalanceService mmrBalanceService = new MmrBalanceService();
             MmrBalanceEntity mmrBalanceEntity = mmrBalanceService.getMmrBalance(killer, killed);
             BigDecimal mmrBalanceRateModifier = mmrBalanceService.getMmrBalanceRateModifier(

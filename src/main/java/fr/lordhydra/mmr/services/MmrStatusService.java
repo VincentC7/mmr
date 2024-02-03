@@ -69,4 +69,10 @@ public class MmrStatusService {
         LocalDateTime tempDateTime = LocalDateTime.from(timeFromLastStatusUpdate);
         return Config.STATUS_UPDATE_COOLDOWN - tempDateTime.until(LocalDateTime.now(), ChronoUnit.SECONDS);
     }
+
+    public boolean checkPlayersStatusesValid(Player player1, Player player2) {
+        PlayerMmrEntity player1Entity = getPlayerMmr(player1);
+        PlayerMmrEntity player2Entity = getPlayerMmr(player2);
+        return player1Entity.isActive() && player2Entity.isActive();
+    }
 }
