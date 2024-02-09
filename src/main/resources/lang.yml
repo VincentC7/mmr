@@ -11,15 +11,25 @@ commands:
       playerMmrIsNowActive: "Tu es à présent actif dans le classement MMR, tu peux gagner ou perdre du classement. Bonne chance !"
       playerMmrIsNowDisable: "Tu es à présent sorti du classement MMR, tu ne peux ni perdre ni gagner de MMR"
     rank:
+      sampleCommand: "/mmr rank"
+      description: "Affiche votre MMR"
+      samplePlayerCommand: "/mmr rank <nom du joueur>"
+      playerDescription: "Affiche le MMR joueur que vous aurez spécifier"
       currentMmrMessage: "Actuellement, tu as un MMR de : {mmr}"
       playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr}"
     top:
+      sampleCommand: "/mmr top <numéro de la page>"
+      description: "Affiche le classement des meilleurs joueurs ayant le MMR le plus haut"
       invalidCommand: "La commande n'est pas bonne. Voici un exemple de commande valide '/mmr top 1' ou /mmr rank 5"
       nextPageMessage: "Tapez {command} pour aller à la page suivante"
     enable:
+      sampleCommand: "/mmr on"
+      description: "Permet de rejoindre le classement MMR, si vous l'activez vous pouvez gagner et perdre du MMR"
       playerMmrAlreadyActive: "Tu est déjà actif dans le système de MMR ;)"
       playerMmrEnableSuccess: "Tu as lancé l'activation du Mmr, ce sera actif dans {timer} minutes"
     disable:
+      sampleCommand: "/mmr off"
+      description: "Permet de quitter le classement MMR, si vous faite cette commande votre MMR sera fix"
       playerMmrDisableSuccess: "Tu as lancé la désactivation du Mmr, ce sera actif dans {timer} minutes"
       playerMmrAlreadyDisabled: "Ton MMR est déjà bloqué, fais '/mmr on' pour l'activer"
   admin:
@@ -29,11 +39,17 @@ commands:
       negativeMmrParamError: "Le mmr que tu souhaites ajouter doit être strictement positif"
       successMessage: "Le mmr a bien été ajouté au joueur"
       errorMessage: "Une erreur est survenue lors de l'ajout du mmr au joueur"
+      sampleCommand: "/mmra del <nom du joueur> <quantité à ajouter>"
+      description: "Permet d'ajouter des points de MMR à un joueur"
     del:
       invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmr del nomDuJoueur add 1000"
       negativeMmrParamError: "Le mmr que tu souhaites retirer doit être strictement positif"
       successMessage: "Le mmr a bien été retiré au joueur"
       errorMessage: "Une erreur est survenue lors de la suppression du mmr au joueur"
+      sampleCommand: "/mmra del <nom du joueur> <quantité à ritier>"
+      description: "Permet d'enlever des points de MMR à un joueur"
     reset:
       invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr reset nomDuJoueur"
       successMessage: "Le mmr du joueur à bien été réinitialisé"
+      sampleCommand: "/mmra reset <nom du joueur>"
+      description: "Permet de réinitialiser le MMR d'un joueur à la valeur par défaut présente dans la configue"
