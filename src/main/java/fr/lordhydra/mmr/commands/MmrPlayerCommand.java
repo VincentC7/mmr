@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class MmrPlayerCommand extends AbstractCommand {
 
@@ -35,8 +36,13 @@ public class MmrPlayerCommand extends AbstractCommand {
     }
 
     @Override
-    protected void displayHelp(Player player) {
-
+    protected void buildCommandList() {
+        commands = new HashSet<>();
+        commands.add(new HelpCommand(Lang.currentPlayerSampleCommand, Lang.currentPlayerCommandDescription));
+        commands.add(new HelpCommand(Lang.otherPlayerSampleCommand, Lang.otherPlayerCommandDescription));
+        commands.add(new HelpCommand(Lang.topSampleCommand, Lang.topCommandDescription));
+        commands.add(new HelpCommand(Lang.enableMmrSampleCommand, Lang.enableMmrCommandDescription));
+        commands.add(new HelpCommand(Lang.disableMmrSampleCommand, Lang.disableMmrCommandDescription));
     }
 
     private Result displayPlayerMMR(Player player, String[] args) {

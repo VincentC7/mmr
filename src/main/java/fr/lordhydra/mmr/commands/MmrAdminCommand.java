@@ -7,6 +7,7 @@ import fr.lordhydra.mmr.services.ScoreService;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 
 public class MmrAdminCommand extends AbstractCommand {
     @Override
@@ -25,8 +26,11 @@ public class MmrAdminCommand extends AbstractCommand {
     }
 
     @Override
-    protected void displayHelp(Player player) {
-
+    protected void buildCommandList() {
+        commands = new HashSet<>();
+        commands.add(new HelpCommand(Lang.addSampleCommand, Lang.addCommandDescription));
+        commands.add(new HelpCommand(Lang.delSampleCommand, Lang.delCommandDescription));
+        commands.add(new HelpCommand(Lang.resetSampleCommand, Lang.resetCommandDescription));
     }
 
     private Result addMmrToPlayer(String[] args, boolean negative) {
