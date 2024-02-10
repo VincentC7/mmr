@@ -9,10 +9,12 @@ import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
 import fr.lordhydra.mmr.services.changeStatusTimer.ChangeStatusTimerPool;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class MmrStatusService {
@@ -104,5 +106,27 @@ public class MmrStatusService {
         ChangeStatusTimerPool.removeTimer(playerMmrEntity.playerUUID());
         playerMmrEntity.status(unfreeze ? PlayerMmrStatus.INACTIVE : PlayerMmrStatus.FREEZE);
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
+    }
+
+    public void displayPlayerMmrInfoToAdmin(Player adminPlayer, String playerSearched) throws PlayerMMRNotFoundException {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayerName(playerSearched);
+        if (playerMmrEntity == null) {
+            Player player = Bukkit.getPlayer(playerSearched);
+            if (player == null) {
+                throw new PlayerMMRNotFoundException();
+            }
+            playerMmrEntity = getPlayerMmr(player);
+        }
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy à HH:mm:ss");
+        String info = ChatColor.GRAY + "------------------ " +
+                ChatColor.AQUA + "Info " + playerMmrEntity.playerName() +
+                ChatColor.GRAY + " ------------------\n" +
+                ChatColor.WHITE + "- MMR : " + ChatColor.YELLOW + playerMmrEntity.mmr() + "\n" +
+                ChatColor.WHITE + "- Dernier changement de mmr : " + ChatColor.YELLOW + playerMmrEntity.mmrUpdated().format(dateTimeFormatter) + "\n" +
+                ChatColor.WHITE + "- status : " + ChatColor.YELLOW + playerMmrEntity.status().getDbName() + "\n" +
+                ChatColor.WHITE + "- Dernière modification du status : " + ChatColor.YELLOW + playerMmrEntity.statusUpdated().format(dateTimeFormatter) + "\n" +
+                ChatColor.GRAY + "----------------------------------------------------";
+        adminPlayer.sendMessage(info);
     }
 }

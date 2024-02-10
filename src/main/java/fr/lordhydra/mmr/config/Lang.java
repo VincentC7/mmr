@@ -48,6 +48,9 @@ public class Lang {
     //Unfreeze
     public static String unfreezeSuccessMessage, invalidUnfreezeCommand, unfreezeSampleCommand, unfreezeCommandDescription;
 
+    //info
+    public static String invalidPlayerInfoCommand;
+
     //================= Commands ================= //
 
     public static void load() {

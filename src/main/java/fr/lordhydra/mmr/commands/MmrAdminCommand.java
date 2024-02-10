@@ -21,6 +21,7 @@ public class MmrAdminCommand extends AbstractCommand {
             case "reset" -> resetPlayerMmr(args);
             case "freeze" -> freezePlayerMmr(args, false);
             case "unfreeze" -> freezePlayerMmr(args, true);
+            case "info" -> displayPlayerInfo(playerWhoExecutedTheCommand, args);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -99,6 +100,20 @@ public class MmrAdminCommand extends AbstractCommand {
             return Result.error(Lang.playerMmrIsNotFreeze);
         }
         return Result.ok(unfreeze ? Lang.unfreezeSuccessMessage : Lang.freezeSuccessMessage);
+    }
+
+    private Result displayPlayerInfo(Player adminPlayer, String[] args) {
+        if (args.length == 0) {
+            return Result.error(Lang.invalidPlayerInfoCommand);
+        }
+        String playerSearched = args[0];
+        MmrStatusService mmrStatusService = new MmrStatusService();
+        try {
+            mmrStatusService.displayPlayerMmrInfoToAdmin(adminPlayer, playerSearched);
+        } catch (PlayerMMRNotFoundException e) {
+            return Result.error(Lang.playerNotFound);
+        }
+        return Result.ok();
     }
 
 }
