@@ -2,6 +2,8 @@ package fr.lordhydra.mmr.commands;
 
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
+import fr.lordhydra.mmr.error.PlayerMmrAlreadyFreeze;
+import fr.lordhydra.mmr.error.PlayerMmrIsNotFreeze;
 import fr.lordhydra.mmr.error.Result;
 import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.services.ScoreService;
@@ -91,6 +93,10 @@ public class MmrAdminCommand extends AbstractCommand {
             mmrStatusService.freezePlayerMmr(playerName, unfreeze);
         } catch (PlayerMMRNotFoundException e) {
             return Result.error(Lang.playerNotFound);
+        } catch (PlayerMmrAlreadyFreeze e) {
+            return Result.error(Lang.playerMmrAlreadyFreeze);
+        } catch (PlayerMmrIsNotFreeze e) {
+            return Result.error(Lang.playerMmrIsNotFreeze);
         }
         return Result.ok(unfreeze ? Lang.unfreezeSuccessMessage : Lang.freezeSuccessMessage);
     }
