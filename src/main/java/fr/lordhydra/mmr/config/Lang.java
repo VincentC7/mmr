@@ -37,6 +37,10 @@ public class Lang {
     //Reset
     public static String invalidResetCommand, resetSuccessMessage, resetSampleCommand, resetCommandDescription;
 
+    //Freeze
+    public static String invalidFreezeCommand, freezeSampleCommand, freezeCommandDescription, freezeSuccessMessage,
+            playerMmrIsFreeze;
+
     //================= Commands ================= //
 
     public static void load() {
@@ -96,5 +100,11 @@ public class Lang {
 
         playerChangeStatusOnCooldown = configuration.getString("commands.player.status.playerChangeStatusOnCooldown");
         playerChangeStatusAlreadyStarted = configuration.getString("commands.player.status.playerChangeStatusAlreadyStarted");
+
+        invalidFreezeCommand = configuration.getString("commands.admin.freeze.invalidCommand");
+        freezeSuccessMessage = configuration.getString("commands.admin.freeze.successMessage");
+        freezeSampleCommand = configuration.getString("commands.admin.freeze.sampleCommand");
+        freezeCommandDescription = configuration.getString("commands.admin.freeze.description");
+        playerMmrIsFreeze = configuration.getString("commands.admin.status.freeze");
     }
 }

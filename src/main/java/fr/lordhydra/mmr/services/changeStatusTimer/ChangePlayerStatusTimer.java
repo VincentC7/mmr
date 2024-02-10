@@ -2,6 +2,7 @@ package fr.lordhydra.mmr.services.changeStatusTimer;
 
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
+import fr.lordhydra.mmr.entities.PlayerMmrStatus;
 import fr.lordhydra.mmr.services.MmrStatusService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,7 @@ public class ChangePlayerStatusTimer extends BukkitRunnable {
             MmrStatusService mmrStatusService = new MmrStatusService();
             mmrStatusService.changePlayerMmrActivity(playerMmrEntity);
             player.sendMessage(PLUGIN_PREFIX + GREEN + (
-                    playerMmrEntity.isActive() ?
+                    playerMmrEntity.status().equals(PlayerMmrStatus.ACTIVE) ?
                             Lang.playerMmrIsNowActive :
                             Lang.playerMmrIsNowDisable
                     )

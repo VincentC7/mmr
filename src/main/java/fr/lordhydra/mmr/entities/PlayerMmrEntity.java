@@ -33,7 +33,7 @@ public class PlayerMmrEntity {
 
     @Setter
     @Getter
-    private boolean isActive;
+    private PlayerMmrStatus status;
 
     public void addMmr(BigDecimal mmrToAdd) {
         mmr = mmr.add(mmrToAdd);

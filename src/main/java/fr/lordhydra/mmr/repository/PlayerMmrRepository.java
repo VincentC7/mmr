@@ -2,6 +2,7 @@ package fr.lordhydra.mmr.repository;
 
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
+import fr.lordhydra.mmr.entities.PlayerMmrStatus;
 import fr.lordhydra.mmr.services.StorageService;
 import fr.lordhydra.mmr.utils.DateUtil;
 import fr.lordhydra.mmr.utils.Logger;
@@ -29,7 +30,7 @@ public class PlayerMmrRepository implements Repository{
                     created DATETIME NOT NULL,
                     mmr_updated DATETIME NOT NULL,
                     mmr DECIMAL(8,2) NOT NULL,
-                    is_active BOOLEAN DEFAULT true,
+                    status varchar(12) DEFAULT "active" NOT NULL,
                     status_updated DATETIME NOT NULL,
                     PRIMARY KEY(id)
                 );
@@ -66,7 +67,7 @@ public class PlayerMmrRepository implements Repository{
                         .created(DateUtil.parseDateFromDb(rs.getString("created")))
                         .mmrUpdated(DateUtil.parseDateFromDb(rs.getString("mmr_updated")))
                         .mmr(rs.getBigDecimal("mmr"))
-                        .isActive(rs.getBoolean("is_active"))
+                        .status(PlayerMmrStatus.fromString(rs.getString("status")))
                         .statusUpdated(DateUtil.parseDateFromDb(rs.getString("status_updated")))
                         .build();
             }
@@ -113,7 +114,7 @@ public class PlayerMmrRepository implements Repository{
                 """
                 SET mmr = ?,
                     mmr_updated = ?,
-                    is_active = ?,
+                    status = ?,
                     status_updated = ?
                 WHERE player_uuid = ?;
                 """;
@@ -121,7 +122,7 @@ public class PlayerMmrRepository implements Repository{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setBigDecimal(1, playerMmrEntity.mmr());
             stmt.setString(2, playerMmrEntity.mmrUpdated().toString());
-            stmt.setBoolean(3, playerMmrEntity.isActive());
+            stmt.setString(3, playerMmrEntity.status().getDbName());
             stmt.setString(4,playerMmrEntity.statusUpdated().toString());
             stmt.setString(5, playerMmrEntity.playerUUID().toString());
             Logger.getInstance().info(stmt.toString());
@@ -150,7 +151,7 @@ public class PlayerMmrRepository implements Repository{
                         .created(DateUtil.parseDateFromDb(rs.getString("created")))
                         .mmrUpdated(DateUtil.parseDateFromDb(rs.getString("mmr_updated")))
                         .mmr(rs.getBigDecimal("mmr"))
-                        .isActive(rs.getBoolean("is_active"))
+                        .status(PlayerMmrStatus.fromString(rs.getString("status")))
                         .statusUpdated(DateUtil.parseDateFromDb(rs.getString("status_updated")))
                         .build();
                 playerMmrEntities.add(playerMmrEntity);
