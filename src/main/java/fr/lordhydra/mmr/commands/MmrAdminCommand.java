@@ -17,7 +17,8 @@ public class MmrAdminCommand extends AbstractCommand {
             case "add" -> addMmrToPlayer(args, false);
             case "del" -> addMmrToPlayer(args, true);
             case "reset" -> resetPlayerMmr(args);
-            case "freeze" -> freezePlayerMmr(args);
+            case "freeze" -> freezePlayerMmr(args, false);
+            case "unfreeze" -> freezePlayerMmr(args, true);
             default -> Result.error(Lang.unknownCommand);
         };
     }
@@ -34,6 +35,7 @@ public class MmrAdminCommand extends AbstractCommand {
         commands.add(new HelpCommand(Lang.delSampleCommand, Lang.delCommandDescription));
         commands.add(new HelpCommand(Lang.resetSampleCommand, Lang.resetCommandDescription));
         commands.add(new HelpCommand(Lang.freezeSampleCommand, Lang.freezeCommandDescription));
+        commands.add(new HelpCommand(Lang.unfreezeSampleCommand, Lang.unfreezeCommandDescription));
     }
 
     private Result addMmrToPlayer(String[] args, boolean negative) {
@@ -79,18 +81,18 @@ public class MmrAdminCommand extends AbstractCommand {
         return Result.ok(Lang.resetSuccessMessage);
     }
 
-    private Result freezePlayerMmr(String[] args) {
+    private Result freezePlayerMmr(String[] args, boolean unfreeze) {
         if (args.length == 0) {
-            return Result.error(Lang.invalidFreezeCommand);
+            return Result.error(unfreeze ? Lang.invalidUnfreezeCommand : Lang.invalidFreezeCommand);
         }
         String playerName = args[0];
         MmrStatusService mmrStatusService = new MmrStatusService();
         try {
-            mmrStatusService.freezePlayerMmr(playerName);
+            mmrStatusService.freezePlayerMmr(playerName, unfreeze);
         } catch (PlayerMMRNotFoundException e) {
             return Result.error(Lang.playerNotFound);
         }
-        return Result.ok(Lang.freezeSuccessMessage);
+        return Result.ok(unfreeze ? Lang.unfreezeSuccessMessage : Lang.freezeSuccessMessage);
     }
 
 }

@@ -41,6 +41,9 @@ public class Lang {
     public static String invalidFreezeCommand, freezeSampleCommand, freezeCommandDescription, freezeSuccessMessage,
             playerMmrIsFreeze;
 
+    //Unfreeze
+    public static String unfreezeSuccessMessage, invalidUnfreezeCommand, unfreezeSampleCommand, unfreezeCommandDescription;
+
     //================= Commands ================= //
 
     public static void load() {
@@ -106,5 +109,10 @@ public class Lang {
         freezeSampleCommand = configuration.getString("commands.admin.freeze.sampleCommand");
         freezeCommandDescription = configuration.getString("commands.admin.freeze.description");
         playerMmrIsFreeze = configuration.getString("commands.admin.status.freeze");
+
+        invalidUnfreezeCommand = configuration.getString("commands.admin.unfreeze.invalidCommand");
+        unfreezeSuccessMessage = configuration.getString("commands.admin.unfreeze.successMessage");
+        unfreezeSampleCommand = configuration.getString("commands.admin.unfreeze.sampleCommand");
+        unfreezeCommandDescription = configuration.getString("commands.admin.unfreeze.description");
     }
 }

@@ -59,3 +59,8 @@ commands:
       successMessage: "Le mmr du joueur à bien été freeze"
       sampleCommand: "/mmra freeze <nom du joueur>"
       description: "Permet de bloquer le MMR d'un joueur."
+    unfreeze:
+      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr unfreeze nomDuJoueur"
+      successMessage: "Le mmr du joueur à bien été unfreeze"
+      sampleCommand: "/mmra unfreeze <nom du joueur>"
+      description: "Permet de débloquer le MMR d'un joueur."

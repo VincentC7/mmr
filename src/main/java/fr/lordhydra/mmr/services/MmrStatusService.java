@@ -82,7 +82,7 @@ public class MmrStatusService {
                 player2Entity.status().equals(PlayerMmrStatus.ACTIVE);
     }
 
-    public void freezePlayerMmr(String playerName) throws PlayerMMRNotFoundException {
+    public void freezePlayerMmr(String playerName, boolean unfreeze) throws PlayerMMRNotFoundException {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayerName(playerName);
         if (playerMmrEntity == null) {
@@ -93,7 +93,7 @@ public class MmrStatusService {
             playerMmrEntity = getPlayerMmr(player);
         }
         ChangeStatusTimerPool.removeTimer(playerMmrEntity.playerUUID());
-        playerMmrEntity.status(PlayerMmrStatus.FREEZE);
+        playerMmrEntity.status(unfreeze ? PlayerMmrStatus.INACTIVE : PlayerMmrStatus.FREEZE);
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
 }
