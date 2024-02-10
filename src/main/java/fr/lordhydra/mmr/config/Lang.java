@@ -14,15 +14,19 @@ public class Lang {
     //Rank
     public static String currentPlayerMmrMessage, otherPLayerMmrMessage, currentPlayerSampleCommand,
             currentPlayerCommandDescription, otherPlayerSampleCommand, otherPlayerCommandDescription;
+
     //Top
     public static String invalidTopCommand, topNextPageMessage, topSampleCommand, topCommandDescription;
+
     //On (enable mmr for players)
     public static String playerMmrAlreadyActive, playerMmrEnableSuccess, enableMmrSampleCommand, enableMmrCommandDescription;
+
     //Off (disable mmr for players)
     public static String playerMmrDisableSuccess, playerMmrAlreadyDisabled, disableMmrSampleCommand, disableMmrCommandDescription;
+
     //Status
     public static String playerChangeStatusOnCooldown, playerChangeStatusAlreadyStarted,
-            playerMmrIsNowActive, playerMmrIsNowDisable;
+            playerMmrIsNowActive, playerMmrIsNowDisable, playerMmrAlreadyFreeze, playerMmrIsNotFreeze;
 
     // ------- Admin commands -------
     public static String invalidMmrFormat;
@@ -36,6 +40,16 @@ public class Lang {
 
     //Reset
     public static String invalidResetCommand, resetSuccessMessage, resetSampleCommand, resetCommandDescription;
+
+    //Freeze
+    public static String invalidFreezeCommand, freezeSampleCommand, freezeCommandDescription, freezeSuccessMessage,
+            playerMmrIsFreeze;
+
+    //Unfreeze
+    public static String unfreezeSuccessMessage, invalidUnfreezeCommand, unfreezeSampleCommand, unfreezeCommandDescription;
+
+    //info
+    public static String invalidPlayerInfoCommand;
 
     //================= Commands ================= //
 
@@ -96,5 +110,18 @@ public class Lang {
 
         playerChangeStatusOnCooldown = configuration.getString("commands.player.status.playerChangeStatusOnCooldown");
         playerChangeStatusAlreadyStarted = configuration.getString("commands.player.status.playerChangeStatusAlreadyStarted");
+
+        invalidFreezeCommand = configuration.getString("commands.admin.freeze.invalidCommand");
+        freezeSuccessMessage = configuration.getString("commands.admin.freeze.successMessage");
+        freezeSampleCommand = configuration.getString("commands.admin.freeze.sampleCommand");
+        freezeCommandDescription = configuration.getString("commands.admin.freeze.description");
+        playerMmrIsFreeze = configuration.getString("commands.admin.status.freeze");
+        playerMmrAlreadyFreeze = configuration.getString("commands.admin.freeze.alreadyFreeze");
+
+        invalidUnfreezeCommand = configuration.getString("commands.admin.unfreeze.invalidCommand");
+        unfreezeSuccessMessage = configuration.getString("commands.admin.unfreeze.successMessage");
+        unfreezeSampleCommand = configuration.getString("commands.admin.unfreeze.sampleCommand");
+        unfreezeCommandDescription = configuration.getString("commands.admin.unfreeze.commandDescription");
+        playerMmrIsNotFreeze = configuration.getString("commands.admin.unfreeze.isNotFreeze");
     }
 }
