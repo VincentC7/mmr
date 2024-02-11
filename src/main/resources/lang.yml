@@ -36,33 +36,37 @@ commands:
   admin:
     invalidMmrFormat: "Le mmr que tu souhaites ajouter au joueur doit être sous la forme 100 ou 150.50"
     add:
-      invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmr add nomDuJoueur add 1000"
+      invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmra add nomDuJoueur add 1000"
       negativeMmrParamError: "Le mmr que tu souhaites ajouter doit être strictement positif"
       successMessage: "Le mmr a bien été ajouté au joueur"
       errorMessage: "Une erreur est survenue lors de l'ajout du mmr au joueur"
       sampleCommand: "/mmra del <nom du joueur> <quantité à ajouter>"
       description: "Permet d'ajouter des points de MMR à un joueur"
     del:
-      invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmr del nomDuJoueur add 1000"
+      invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmra del nomDuJoueur add 1000"
       negativeMmrParamError: "Le mmr que tu souhaites retirer doit être strictement positif"
       successMessage: "Le mmr a bien été retiré au joueur"
       errorMessage: "Une erreur est survenue lors de la suppression du mmr au joueur"
       sampleCommand: "/mmra del <nom du joueur> <quantité à ritier>"
       description: "Permet d'enlever des points de MMR à un joueur"
     reset:
-      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr reset nomDuJoueur"
+      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmra reset nomDuJoueur"
       successMessage: "Le mmr du joueur à bien été réinitialisé"
       sampleCommand: "/mmra reset <nom du joueur>"
       description: "Permet de réinitialiser le MMR d'un joueur à la valeur par défaut présente dans la configue"
     ban:
-      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr ban nomDuJoueur"
+      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmra ban nomDuJoueur"
       successMessage: "Le mmr du joueur à bien été ban"
       sampleCommand: "/mmra ban <nom du joueur>"
       description: "Permet de bloquer le MMR d'un joueur."
       alreadyban: "Le MMR du joueur est déjà ban."
     unban:
-      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr unban nomDuJoueur"
+      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmra unban nomDuJoueur"
       successMessage: "Le mmr du joueur à bien été unban"
       sampleCommand: "/mmra unban <nom du joueur>"
       description: "Permet de débloquer le MMR d'un joueur."
       isNotban: "Le MMR du joueur n'est pas ban, pas besoin de unban."
+    banlist:
+      sampleCommand: "/mmra banlist <nom du joueur>"
+      description: "Permet de lister les joueurs bannis du système de MMR."
+      bannedListEmpty: "Aucun joueur n'est banni"

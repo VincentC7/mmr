@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class MmrStatusService {
 
@@ -128,5 +129,10 @@ public class MmrStatusService {
                 ChatColor.WHITE + "- Dernière modification du status : " + ChatColor.YELLOW + playerMmrEntity.statusUpdated().format(dateTimeFormatter) + "\n" +
                 ChatColor.GRAY + "----------------------------------------------------";
         adminPlayer.sendMessage(info);
+    }
+
+    public List<String> fetchBannedPlayerNameList() {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        return playerMmrRepository.fetchBannedPlayerNameList();
     }
 }

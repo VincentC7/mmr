@@ -51,6 +51,9 @@ public class Lang {
     //info
     public static String invalidPlayerInfoCommand;
 
+    //banlist
+    public static String banlistSampleCommand, banlistCommandDescription, bannedListEmpty;
+
     //================= Commands ================= //
 
     public static void load() {
@@ -123,5 +126,9 @@ public class Lang {
         unbanSampleCommand = configuration.getString("commands.admin.unban.sampleCommand");
         unbanCommandDescription = configuration.getString("commands.admin.unban.commandDescription");
         playerMmrIsNotBan = configuration.getString("commands.admin.unban.isNotBan");
+
+        banlistSampleCommand = configuration.getString("commands.admin.banlist.sampleCommand");
+        banlistCommandDescription = configuration.getString("commands.admin.banlist.description");
+        bannedListEmpty = configuration.getString("commands.admin.banlist.bannedListEmpty");
     }
 }
