@@ -40,7 +40,7 @@ commands:
       negativeMmrParamError: "Le mmr que tu souhaites ajouter doit être strictement positif"
       successMessage: "Le mmr a bien été ajouté au joueur"
       errorMessage: "Une erreur est survenue lors de l'ajout du mmr au joueur"
-      sampleCommand: "/mmra del <nom du joueur> <quantité à ajouter>"
+      sampleCommand: "/mmra add <nom du joueur> <quantité à ajouter>"
       description: "Permet d'ajouter des points de MMR à un joueur"
     del:
       invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmra del nomDuJoueur add 1000"
