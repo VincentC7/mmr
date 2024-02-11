@@ -22,6 +22,7 @@ public class FileService {
         files.put("config", new ConfigFile("config"));
         files.put("lang", new ConfigFile("lang"));
         files.put("database", new ConfigFile("database"));
+        files.put("ranks", new ConfigFile("ranks"));
     }
 
     public void launchFiles() {

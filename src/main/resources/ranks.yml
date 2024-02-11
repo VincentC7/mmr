@@ -1,0 +1,85 @@
+mmrRanks:
+  bronze1:
+    name: "&c[Bronze 1]"
+    chatPrefix: "&c[B1]"
+    mmrMin: 0
+  bronze2:
+    name: "&c[Bronze 2]"
+    chatPrefix: "&c[B2]"
+    mmrMin: 250
+  bronze3:
+    name: "&c[Bronze 3]"
+    chatPrefix: "&c[B3]"
+    mmrMin: 500
+  argent1:
+    name: "&7[Argent 1]"
+    chatPrefix: "&7[A1]"
+    mmrMin: 750
+  argent2:
+    name: "&7[Argent 2]"
+    chatPrefix: "&7[A2]"
+    mmrMin: 1000
+  argent3:
+    name: "&7[Argent 3]"
+    chatPrefix: "&7[A3]"
+    mmrMin: 1250
+  gold1:
+    name: "&6[Gold 1]"
+    chatPrefix: "&6[G1]"
+    mmrMin: 1500
+  gold2:
+    name: "&6[Gold 2]"
+    chatPrefix: "&6[G2]"
+    mmrMin: 1750
+  gold3:
+    name: "&6[Gold 3]"
+    chatPrefix: "&6[G3]"
+    mmrMin: 2000
+  platine1:
+    name: "&2[Platine 1]"
+    chatPrefix: "&2[P1]"
+    mmrMin: 2250
+  platine2:
+    name: "&2[Platine 2]"
+    chatPrefix: "&2[P2]"
+    mmrMin: 2500
+  platine3:
+    name: "&2[Platine 3]"
+    chatPrefix: "&2[P3]"
+    mmrMin: 2750
+  diamand1:
+    name: "&b[Diamant 1]"
+    chatPrefix: "&b[D1]"
+    mmrMin: 3000
+  diamand2:
+    name: "&b[Diamant 2]"
+    chatPrefix: "&b[D2]"
+    mmrMin: 3250
+  diamand3:
+    name: "&b[Diamant 3]"
+    chatPrefix: "&b[D3]"
+    mmrMin: 3500
+  master1:
+    name: "&d[Master 1]"
+    chatPrefix: "&d[M1]"
+    mmrMin: 3750
+  master2:
+    name: "&d[Master 2]"
+    chatPrefix: "&d[M2]"
+    mmrMin: 4000
+  master3:
+    name: "&d[Master 3]"
+    chatPrefix: "&d[M3]"
+    mmrMin: 4250
+  champion1:
+    name: "&5[Champion 1]"
+    chatPrefix: "&5[C1]"
+    mmrMin: 4500
+  champion2:
+    name: "&5[Champion 2]"
+    chatPrefix: "&5[C2]"
+    mmrMin: 4750
+  champion3:
+    name: "&5[Champion 3]"
+    chatPrefix: "&5[C3]"
+    mmrMin: 5000

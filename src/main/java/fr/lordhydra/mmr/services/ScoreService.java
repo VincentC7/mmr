@@ -50,7 +50,6 @@ public class ScoreService {
         if (playerMmrEntity == null) {
             return BigDecimal.valueOf(Config.DEFAULT_MMR);
         }
-        Logger.getInstance().info(playerMmrEntity.toString());
         return playerMmrEntity.mmr();
     }
 

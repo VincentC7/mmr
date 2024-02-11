@@ -16,8 +16,8 @@ commands:
       description: "Affiche votre MMR"
       samplePlayerCommand: "/mmr rank <nom du joueur>"
       playerDescription: "Affiche le MMR joueur que vous aurez spécifier"
-      currentMmrMessage: "Actuellement, tu as un MMR de : {mmr}"
-      playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr}"
+      currentMmrMessage: "Actuellement, tu as un MMR de : {mmr} {rank}"
+      playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr} {rank}"
     top:
       sampleCommand: "/mmr top <numéro de la page>"
       description: "Affiche le classement des meilleurs joueurs ayant le MMR le plus haut"
