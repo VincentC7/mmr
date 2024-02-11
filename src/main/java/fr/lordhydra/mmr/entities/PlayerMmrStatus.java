@@ -5,7 +5,7 @@ import lombok.Getter;
 public enum PlayerMmrStatus {
     ACTIVE("active"),
     INACTIVE("inactive"),
-    FREEZE("freeze");
+    BAN("ban");
 
     PlayerMmrStatus (String dbName) {
         this.dbName = dbName;

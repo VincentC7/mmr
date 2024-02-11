@@ -26,7 +26,7 @@ public class Lang {
 
     //Status
     public static String playerChangeStatusOnCooldown, playerChangeStatusAlreadyStarted,
-            playerMmrIsNowActive, playerMmrIsNowDisable, playerMmrAlreadyFreeze, playerMmrIsNotFreeze;
+            playerMmrIsNowActive, playerMmrIsNowDisable, playerMmrAlreadyBan, playerMmrIsNotBan;
 
     // ------- Admin commands -------
     public static String invalidMmrFormat;
@@ -41,15 +41,18 @@ public class Lang {
     //Reset
     public static String invalidResetCommand, resetSuccessMessage, resetSampleCommand, resetCommandDescription;
 
-    //Freeze
-    public static String invalidFreezeCommand, freezeSampleCommand, freezeCommandDescription, freezeSuccessMessage,
-            playerMmrIsFreeze;
+    //Ban
+    public static String invalidBanCommand, banSampleCommand, banCommandDescription, banSuccessMessage,
+            playerMmrIsBan;
 
-    //Unfreeze
-    public static String unfreezeSuccessMessage, invalidUnfreezeCommand, unfreezeSampleCommand, unfreezeCommandDescription;
+    //unban
+    public static String unbanSuccessMessage, invalidunbanCommand, unbanSampleCommand, unbanCommandDescription;
 
     //info
     public static String invalidPlayerInfoCommand;
+
+    //banlist
+    public static String banlistSampleCommand, banlistCommandDescription, bannedListEmpty;
 
     //================= Commands ================= //
 
@@ -111,17 +114,21 @@ public class Lang {
         playerChangeStatusOnCooldown = configuration.getString("commands.player.status.playerChangeStatusOnCooldown");
         playerChangeStatusAlreadyStarted = configuration.getString("commands.player.status.playerChangeStatusAlreadyStarted");
 
-        invalidFreezeCommand = configuration.getString("commands.admin.freeze.invalidCommand");
-        freezeSuccessMessage = configuration.getString("commands.admin.freeze.successMessage");
-        freezeSampleCommand = configuration.getString("commands.admin.freeze.sampleCommand");
-        freezeCommandDescription = configuration.getString("commands.admin.freeze.description");
-        playerMmrIsFreeze = configuration.getString("commands.admin.status.freeze");
-        playerMmrAlreadyFreeze = configuration.getString("commands.admin.freeze.alreadyFreeze");
+        invalidBanCommand = configuration.getString("commands.admin.ban.invalidCommand");
+        banSuccessMessage = configuration.getString("commands.admin.ban.successMessage");
+        banSampleCommand = configuration.getString("commands.admin.ban.sampleCommand");
+        banCommandDescription = configuration.getString("commands.admin.ban.description");
+        playerMmrIsBan = configuration.getString("commands.admin.status.ban");
+        playerMmrAlreadyBan = configuration.getString("commands.admin.ban.alreadyBan");
 
-        invalidUnfreezeCommand = configuration.getString("commands.admin.unfreeze.invalidCommand");
-        unfreezeSuccessMessage = configuration.getString("commands.admin.unfreeze.successMessage");
-        unfreezeSampleCommand = configuration.getString("commands.admin.unfreeze.sampleCommand");
-        unfreezeCommandDescription = configuration.getString("commands.admin.unfreeze.commandDescription");
-        playerMmrIsNotFreeze = configuration.getString("commands.admin.unfreeze.isNotFreeze");
+        invalidunbanCommand = configuration.getString("commands.admin.unban.invalidCommand");
+        unbanSuccessMessage = configuration.getString("commands.admin.unban.successMessage");
+        unbanSampleCommand = configuration.getString("commands.admin.unban.sampleCommand");
+        unbanCommandDescription = configuration.getString("commands.admin.unban.commandDescription");
+        playerMmrIsNotBan = configuration.getString("commands.admin.unban.isNotBan");
+
+        banlistSampleCommand = configuration.getString("commands.admin.banlist.sampleCommand");
+        banlistCommandDescription = configuration.getString("commands.admin.banlist.description");
+        bannedListEmpty = configuration.getString("commands.admin.banlist.bannedListEmpty");
     }
 }

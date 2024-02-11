@@ -130,8 +130,8 @@ public class MmrPlayerCommand extends AbstractCommand {
         MmrStatusService mmrStatusService = new MmrStatusService();
         try {
             mmrStatusService.changePlayerMmrStatus(player, disable);
-        } catch (PlayerMmrFreeze e) {
-            return Result.error(Lang.playerMmrIsFreeze);
+        } catch (PlayerMmrBan e) {
+            return Result.error(Lang.playerMmrIsBan);
         } catch (PlayerMmrAlreadyDisabled e) {
             return Result.error(Lang.playerMmrAlreadyDisabled);
         } catch (PlayerMmrAlreadyActive e) {
