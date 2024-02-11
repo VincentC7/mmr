@@ -27,10 +27,10 @@ public class MmrStatusService {
             PlayerMmrAlreadyDisabled,
             StatusUpdateCouldown, playerHasAlreadyTimerStarted,
             PlayerMmrAlreadyActive,
-            PlayerMmrFreeze
+            PlayerMmrBan
     {
         PlayerMmrEntity playerMmrEntity = getPlayerMmr(player);
-        if (playerMmrEntity.status().equals(PlayerMmrStatus.FREEZE)) throw new PlayerMmrFreeze();
+        if (playerMmrEntity.status().equals(PlayerMmrStatus.BAN)) throw new PlayerMmrBan();
         if (playerMmrEntity.status().equals(PlayerMmrStatus.INACTIVE) && disable) throw new PlayerMmrAlreadyDisabled();
         if (playerMmrEntity.status().equals(PlayerMmrStatus.ACTIVE) && !disable) throw new PlayerMmrAlreadyActive();
         long playerCooldown = calculatePLayerCooldown(playerMmrEntity.statusUpdated());
@@ -84,7 +84,7 @@ public class MmrStatusService {
                 player2Entity.status().equals(PlayerMmrStatus.ACTIVE);
     }
 
-    public void freezePlayerMmr(String playerName, boolean unfreeze) throws PlayerMMRNotFoundException, PlayerMmrAlreadyFreeze, PlayerMmrIsNotFreeze {
+    public void banPlayerMmr(String playerName, boolean unban) throws PlayerMMRNotFoundException, PlayerMmrAlreadyBanned, PlayerMmrIsNotBan {
         PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
         PlayerMmrEntity playerMmrEntity = playerMmrRepository.findByPlayerName(playerName);
         if (playerMmrEntity == null) {
@@ -95,16 +95,16 @@ public class MmrStatusService {
             playerMmrEntity = getPlayerMmr(player);
         }
 
-        if (playerMmrEntity.status().equals(PlayerMmrStatus.FREEZE) && !unfreeze) {
-            throw new PlayerMmrAlreadyFreeze();
+        if (playerMmrEntity.status().equals(PlayerMmrStatus.BAN) && !unban) {
+            throw new PlayerMmrAlreadyBanned();
         }
 
-        if (!playerMmrEntity.status().equals(PlayerMmrStatus.FREEZE) && unfreeze) {
-            throw new PlayerMmrIsNotFreeze();
+        if (!playerMmrEntity.status().equals(PlayerMmrStatus.BAN) && unban) {
+            throw new PlayerMmrIsNotBan();
         }
 
         ChangeStatusTimerPool.removeTimer(playerMmrEntity.playerUUID());
-        playerMmrEntity.status(unfreeze ? PlayerMmrStatus.INACTIVE : PlayerMmrStatus.FREEZE);
+        playerMmrEntity.status(unban ? PlayerMmrStatus.INACTIVE : PlayerMmrStatus.BAN);
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
 

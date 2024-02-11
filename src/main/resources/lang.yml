@@ -10,7 +10,7 @@ commands:
       playerChangeStatusAlreadyStarted: "Tu as déjà initié un changement de status, le changement sera effectif dans moins de {timeLeft}"
       playerMmrIsNowActive: "Tu es à présent actif dans le classement MMR, tu peux gagner ou perdre du classement. Bonne chance !"
       playerMmrIsNowDisable: "Tu es à présent sorti du classement MMR, tu ne peux ni perdre ni gagner de MMR"
-      freeze: "Tu ne peux pas mettre à jour ton MMR car il a été bloqué par un administrateur."
+      ban: "Tu ne peux pas mettre à jour ton MMR car il a été bloqué par un administrateur."
     rank:
       sampleCommand: "/mmr rank"
       description: "Affiche votre MMR"
@@ -54,15 +54,15 @@ commands:
       successMessage: "Le mmr du joueur à bien été réinitialisé"
       sampleCommand: "/mmra reset <nom du joueur>"
       description: "Permet de réinitialiser le MMR d'un joueur à la valeur par défaut présente dans la configue"
-    freeze:
-      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr freeze nomDuJoueur"
-      successMessage: "Le mmr du joueur à bien été freeze"
-      sampleCommand: "/mmra freeze <nom du joueur>"
+    ban:
+      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr ban nomDuJoueur"
+      successMessage: "Le mmr du joueur à bien été ban"
+      sampleCommand: "/mmra ban <nom du joueur>"
       description: "Permet de bloquer le MMR d'un joueur."
-      alreadyFreeze: "Le MMR du joueur est déjà freeze."
-    unfreeze:
-      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr unfreeze nomDuJoueur"
-      successMessage: "Le mmr du joueur à bien été unfreeze"
-      sampleCommand: "/mmra unfreeze <nom du joueur>"
+      alreadyban: "Le MMR du joueur est déjà ban."
+    unban:
+      invalidCommand: "La commande n'est pas bonne, il manque le nom du joueur. Exemple /mmr unban nomDuJoueur"
+      successMessage: "Le mmr du joueur à bien été unban"
+      sampleCommand: "/mmra unban <nom du joueur>"
       description: "Permet de débloquer le MMR d'un joueur."
-      isNotFreeze: "Le MMR du joueur n'est pas freeze, pas besoin de unfreeze."
+      isNotban: "Le MMR du joueur n'est pas ban, pas besoin de unban."

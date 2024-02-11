@@ -2,8 +2,8 @@ package fr.lordhydra.mmr.commands;
 
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
-import fr.lordhydra.mmr.error.PlayerMmrAlreadyFreeze;
-import fr.lordhydra.mmr.error.PlayerMmrIsNotFreeze;
+import fr.lordhydra.mmr.error.PlayerMmrAlreadyBanned;
+import fr.lordhydra.mmr.error.PlayerMmrIsNotBan;
 import fr.lordhydra.mmr.error.Result;
 import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.services.ScoreService;
@@ -19,8 +19,8 @@ public class MmrAdminCommand extends AbstractCommand {
             case "add" -> addMmrToPlayer(args, false);
             case "del" -> addMmrToPlayer(args, true);
             case "reset" -> resetPlayerMmr(args);
-            case "freeze" -> freezePlayerMmr(args, false);
-            case "unfreeze" -> freezePlayerMmr(args, true);
+            case "ban" -> banPlayerMmr(args, false);
+            case "unban" -> banPlayerMmr(args, true);
             case "info" -> displayPlayerInfo(playerWhoExecutedTheCommand, args);
             default -> Result.error(Lang.unknownCommand);
         };
@@ -37,8 +37,8 @@ public class MmrAdminCommand extends AbstractCommand {
         commands.add(new HelpCommand(Lang.addSampleCommand, Lang.addCommandDescription));
         commands.add(new HelpCommand(Lang.delSampleCommand, Lang.delCommandDescription));
         commands.add(new HelpCommand(Lang.resetSampleCommand, Lang.resetCommandDescription));
-        commands.add(new HelpCommand(Lang.freezeSampleCommand, Lang.freezeCommandDescription));
-        commands.add(new HelpCommand(Lang.unfreezeSampleCommand, Lang.unfreezeCommandDescription));
+        commands.add(new HelpCommand(Lang.banSampleCommand, Lang.banCommandDescription));
+        commands.add(new HelpCommand(Lang.unbanSampleCommand, Lang.unbanCommandDescription));
     }
 
     private Result addMmrToPlayer(String[] args, boolean negative) {
@@ -84,22 +84,22 @@ public class MmrAdminCommand extends AbstractCommand {
         return Result.ok(Lang.resetSuccessMessage);
     }
 
-    private Result freezePlayerMmr(String[] args, boolean unfreeze) {
+    private Result banPlayerMmr(String[] args, boolean unban) {
         if (args.length == 0) {
-            return Result.error(unfreeze ? Lang.invalidUnfreezeCommand : Lang.invalidFreezeCommand);
+            return Result.error(unban ? Lang.invalidunbanCommand : Lang.invalidBanCommand);
         }
         String playerName = args[0];
         MmrStatusService mmrStatusService = new MmrStatusService();
         try {
-            mmrStatusService.freezePlayerMmr(playerName, unfreeze);
+            mmrStatusService.banPlayerMmr(playerName, unban);
         } catch (PlayerMMRNotFoundException e) {
             return Result.error(Lang.playerNotFound);
-        } catch (PlayerMmrAlreadyFreeze e) {
-            return Result.error(Lang.playerMmrAlreadyFreeze);
-        } catch (PlayerMmrIsNotFreeze e) {
-            return Result.error(Lang.playerMmrIsNotFreeze);
+        } catch (PlayerMmrAlreadyBanned e) {
+            return Result.error(Lang.playerMmrAlreadyBan);
+        } catch (PlayerMmrIsNotBan e) {
+            return Result.error(Lang.playerMmrIsNotBan);
         }
-        return Result.ok(unfreeze ? Lang.unfreezeSuccessMessage : Lang.freezeSuccessMessage);
+        return Result.ok(unban ? Lang.unbanSuccessMessage : Lang.banSuccessMessage);
     }
 
     private Result displayPlayerInfo(Player adminPlayer, String[] args) {
