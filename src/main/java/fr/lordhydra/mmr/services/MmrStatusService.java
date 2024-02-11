@@ -61,6 +61,7 @@ public class MmrStatusService {
                     .playerUUID(player.getUniqueId())
                     .playerName(player.getName())
                     .mmr(BigDecimal.valueOf(Config.DEFAULT_MMR))
+                    .mmrUpdated(LocalDateTime.now())
                     .status(PlayerMmrStatus.ACTIVE)
                     .build();
             playerMmrRepository.insertPlayerMmr(playerMmrEntity);
@@ -106,6 +107,7 @@ public class MmrStatusService {
 
         ChangeStatusTimerPool.removeTimer(playerMmrEntity.playerUUID());
         playerMmrEntity.status(unban ? PlayerMmrStatus.INACTIVE : PlayerMmrStatus.BAN);
+        playerMmrEntity.statusUpdated(LocalDateTime.now());
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
 

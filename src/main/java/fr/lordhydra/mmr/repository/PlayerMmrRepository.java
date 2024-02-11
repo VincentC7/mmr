@@ -101,7 +101,6 @@ public class PlayerMmrRepository implements Repository {
 
     public boolean updatePlayerMmr(PlayerMmrEntity playerMmrEntity) {
         Connection connection = StorageService.getInstance().getConnection();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String sql = "Update " + TABLE_NAME + " " +
                 """
                         SET mmr = ?,
