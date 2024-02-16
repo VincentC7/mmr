@@ -16,8 +16,8 @@ commands:
       description: "Affiche votre MMR"
       samplePlayerCommand: "/mmr rank <nom du joueur>"
       playerDescription: "Affiche le MMR joueur que vous aurez spécifier"
-      currentMmrMessage: "Actuellement, tu as un MMR de : {mmr}"
-      playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr}"
+      currentMmrMessage: "Actuellement, tu as un MMR de : {mmr} {rank}"
+      playerMmrMessage: "Le MMR du joueur {playerName} est de : {mmr} {rank}"
     top:
       sampleCommand: "/mmr top <numéro de la page>"
       description: "Affiche le classement des meilleurs joueurs ayant le MMR le plus haut"
@@ -40,7 +40,7 @@ commands:
       negativeMmrParamError: "Le mmr que tu souhaites ajouter doit être strictement positif"
       successMessage: "Le mmr a bien été ajouté au joueur"
       errorMessage: "Une erreur est survenue lors de l'ajout du mmr au joueur"
-      sampleCommand: "/mmra del <nom du joueur> <quantité à ajouter>"
+      sampleCommand: "/mmra add <nom du joueur> <quantité à ajouter>"
       description: "Permet d'ajouter des points de MMR à un joueur"
     del:
       invalidCommand: "La commande n'est pas bonne. Voici un exemple valide : /mmra del nomDuJoueur add 1000"

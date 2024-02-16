@@ -2,12 +2,15 @@ package fr.lordhydra.mmr.commands;
 
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.config.Lang;
+import fr.lordhydra.mmr.config.Ranks;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.*;
+import fr.lordhydra.mmr.lib.Rank;
 import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;
 import fr.lordhydra.mmr.error.Result;
+import fr.lordhydra.mmr.utils.MessageColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -50,7 +53,11 @@ public class MmrPlayerCommand extends AbstractCommand {
         BigDecimal mmr;
         if (args.length == 0) {
             mmr = scoreService.getPlayerMmr(player);
-            return Result.ok(Lang.currentPlayerMmrMessage.replace("{mmr}", mmr.toString()));
+            Rank rank = Ranks.getInstance().getRank(mmr.intValue());
+            return Result.ok(Lang.currentPlayerMmrMessage
+                    .replace("{mmr}", mmr.toString())
+                    .replace("{rank}", MessageColor.injectColors(rank.getName()))
+            );
         }
         String playerName = args[0];
         Player targerPlayer = Bukkit.getPlayer(playerName);
@@ -63,10 +70,12 @@ public class MmrPlayerCommand extends AbstractCommand {
         } else {
             mmr = scoreService.getPlayerMmr(targerPlayer);
         }
+        Rank rank = Ranks.getInstance().getRank(mmr.intValue());
         return Result.ok(
                 Lang.otherPLayerMmrMessage
                         .replace("{mmr}", mmr.toString())
                         .replace("{playerName}", playerName)
+                        .replace("{rank}", MessageColor.injectColors(rank.getName()))
         );
     }
 
@@ -105,10 +114,13 @@ public class MmrPlayerCommand extends AbstractCommand {
                 .append(ChatColor.WHITE);
         int top = 1;
         for (PlayerMmrEntity playerMmrEntity : playerMmrEntities) {
+            Rank rank = Ranks.getInstance().getRank(playerMmrEntity.mmr().intValue());
             stringBuilder
                     .append(top++ + (Config.TOP_MMR_PAGE_SIZE * (page - 1))).append(". ")
                     .append(playerMmrEntity.playerName())
                     .append(" : ")
+                    .append(MessageColor.injectColors(rank.getName()))
+                    .append(" ").append(ChatColor.WHITE)
                     .append(playerMmrEntity.mmr())
                     .append("\n");
         }
