@@ -114,10 +114,13 @@ public class MmrPlayerCommand extends AbstractCommand {
                 .append(ChatColor.WHITE);
         int top = 1;
         for (PlayerMmrEntity playerMmrEntity : playerMmrEntities) {
+            Rank rank = Ranks.getInstance().getRank(playerMmrEntity.mmr().intValue());
             stringBuilder
                     .append(top++ + (Config.TOP_MMR_PAGE_SIZE * (page - 1))).append(". ")
                     .append(playerMmrEntity.playerName())
                     .append(" : ")
+                    .append(MessageColor.injectColors(rank.getName()))
+                    .append(" ").append(ChatColor.WHITE)
                     .append(playerMmrEntity.mmr())
                     .append("\n");
         }
