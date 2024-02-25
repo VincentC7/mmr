@@ -1,7 +1,7 @@
 package fr.lordhydra.mmr.config;
 
-import fr.lordhydra.mmr.lib.Rank;
-import fr.lordhydra.mmr.lib.RankComparator;
+import fr.lordhydra.mmr.lib.rank.Rank;
+import fr.lordhydra.mmr.lib.rank.RankComparator;
 import fr.lordhydra.mmr.services.FileService;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

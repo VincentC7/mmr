@@ -1,4 +1,4 @@
-package fr.lordhydra.mmr.lib;
+package fr.lordhydra.mmr.lib.rank;
 
 import java.util.Comparator;
 

@@ -1,4 +1,4 @@
-package fr.lordhydra.mmr.lib;
+package fr.lordhydra.mmr.lib.rank;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

@@ -5,7 +5,7 @@ import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.config.Ranks;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.*;
-import fr.lordhydra.mmr.lib.Rank;
+import fr.lordhydra.mmr.lib.rank.Rank;
 import fr.lordhydra.mmr.services.MmrStatusService;
 import fr.lordhydra.mmr.services.RankingService;
 import fr.lordhydra.mmr.services.ScoreService;

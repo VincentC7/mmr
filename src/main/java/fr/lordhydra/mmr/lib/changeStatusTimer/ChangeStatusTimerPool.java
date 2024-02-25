@@ -1,7 +1,6 @@
-package fr.lordhydra.mmr.services.changeStatusTimer;
+package fr.lordhydra.mmr.lib.changeStatusTimer;
 
 import fr.lordhydra.mmr.error.playerHasAlreadyTimerStarted;
-import fr.lordhydra.mmr.utils.Logger;
 
 import java.util.HashMap;
 import java.util.UUID;

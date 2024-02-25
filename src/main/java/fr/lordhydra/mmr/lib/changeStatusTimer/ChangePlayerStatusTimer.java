@@ -1,4 +1,4 @@
-package fr.lordhydra.mmr.services.changeStatusTimer;
+package fr.lordhydra.mmr.lib.changeStatusTimer;
 
 import fr.lordhydra.mmr.config.Lang;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;

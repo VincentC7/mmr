@@ -2,12 +2,12 @@ package fr.lordhydra.mmr.services;
 
 import fr.lordhydra.mmr.entities.PlayerMmrStatus;
 import fr.lordhydra.mmr.error.*;
-import fr.lordhydra.mmr.services.changeStatusTimer.ChangePlayerStatusTimer;
+import fr.lordhydra.mmr.lib.changeStatusTimer.ChangePlayerStatusTimer;
 import fr.lordhydra.mmr.MMR;
 import fr.lordhydra.mmr.config.Config;
 import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.repository.PlayerMmrRepository;
-import fr.lordhydra.mmr.services.changeStatusTimer.ChangeStatusTimerPool;
+import fr.lordhydra.mmr.lib.changeStatusTimer.ChangeStatusTimerPool;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
