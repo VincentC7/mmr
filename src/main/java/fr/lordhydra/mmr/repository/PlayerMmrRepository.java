@@ -9,7 +9,6 @@ import fr.lordhydra.mmr.utils.Logger;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -178,6 +177,22 @@ public class PlayerMmrRepository implements Repository {
         }
         return 0;
     }
+
+
+    public void resetAllPlayerMmr() {
+        Connection connection = StorageService.getInstance().getConnection();
+        String sql = "Update " + TABLE_NAME + " SET mmr = ? and mmr_updated = ? ;";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Config.DEFAULT_MMR);
+            stmt.setString(2, LocalDateTime.now().toString());
+            Logger.getInstance().info(stmt.toString());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getInstance().error(e.getMessage());
+        }
+    }
+
 
     private PlayerMmrEntity mapDbResultToPlayerMmrEntity(ResultSet resultSet) throws SQLException {
         return PlayerMmrEntity.builder()

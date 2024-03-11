@@ -99,4 +99,9 @@ public class ScoreService {
         playerMmrEntity.mmrUpdated(LocalDateTime.now());
         playerMmrRepository.updatePlayerMmr(playerMmrEntity);
     }
+
+    public void resetAllPlayerMmr() {
+        PlayerMmrRepository playerMmrRepository = new PlayerMmrRepository();
+        playerMmrRepository.resetAllPlayerMmr();
+    }
 }

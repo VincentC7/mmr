@@ -1,7 +1,7 @@
 package fr.lordhydra.mmr.commands;
 
+import fr.lordhydra.mmr.commands.confirmationCommand.ClearAllMmrCommand;
 import fr.lordhydra.mmr.config.Lang;
-import fr.lordhydra.mmr.entities.PlayerMmrEntity;
 import fr.lordhydra.mmr.error.PlayerMMRNotFoundException;
 import fr.lordhydra.mmr.error.PlayerMmrAlreadyBanned;
 import fr.lordhydra.mmr.error.PlayerMmrIsNotBan;
@@ -22,6 +22,7 @@ public class MmrAdminCommand extends AbstractCommand {
             case "add" -> addMmrToPlayer(args, false);
             case "del" -> addMmrToPlayer(args, true);
             case "reset" -> resetPlayerMmr(args);
+            case "resetAll" -> resetAllPlayerMmr(playerWhoExecutedTheCommand, args);
             case "ban" -> banPlayerMmr(args, false);
             case "unban" -> banPlayerMmr(args, true);
             case "info" -> displayPlayerInfo(playerWhoExecutedTheCommand, args);
@@ -87,6 +88,17 @@ public class MmrAdminCommand extends AbstractCommand {
             return Result.error(Lang.playerNotFound);
         }
         return Result.ok(Lang.resetSuccessMessage);
+    }
+
+    private Result resetAllPlayerMmr(Player adminPLayer, String[] args) {
+        ClearAllMmrCommand clearAllMmrCommand = new ClearAllMmrCommand(adminPLayer);
+        if (args.length != 0 && args[0].equals("confirm")) {
+            if (clearAllMmrCommand.check()) {
+                return clearAllMmrCommand.confirm();
+            }
+            return Result.error("Vous n'avez pas de demande de confirmation en cours pour cette commande");
+        }
+        return clearAllMmrCommand.prepare();
     }
 
     private Result banPlayerMmr(String[] args, boolean unban) {
